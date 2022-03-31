@@ -1,0 +1,13 @@
+import React from 'react';
+import cn from 'classnames';
+import { Image } from 'components/Image';
+
+import logo from 'img/logo.svg';
+import css from './SignUp.module.css';
+
+export const SignUp = () => (
+    <main className={cn(css.main, css.container)}>
+        <h1>Sign Up</h1>
+        <Image src={logo} alt="react logo" width={300} height={300} />
+    </main>
+);
