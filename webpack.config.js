@@ -13,6 +13,7 @@ module.exports = {
         },
         port: 8080,
         hot: true,
+        historyApiFallback: true,
         compress: true,
         client: {
             overlay: true,
@@ -79,11 +80,7 @@ module.exports = {
             pages: path.join('src', 'pages'),
             img: path.join('src', 'img'),
         },
-        modules: [
-            __dirname,
-            'src',
-            'node_modules',
-        ],
+        modules: [__dirname, 'src', 'node_modules'],
         extensions: ['.tsx', '.ts', '.js'],
     },
     plugins: [
