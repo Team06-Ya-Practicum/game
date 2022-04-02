@@ -10,6 +10,8 @@ import { SignUp } from 'pages/SignUp';
 import { Leaderboard } from 'pages/Leaderboard';
 import { Profile } from 'pages/Profile';
 import { Forum } from 'pages/Forum';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 
 const App = () => (
     <React.StrictMode>
@@ -30,5 +32,5 @@ ReactDOM.render(
     <BrowserRouter>
         <App />
     </BrowserRouter>,
-    document.getElementById('root'),
+    document.getElementById('root')
 );
