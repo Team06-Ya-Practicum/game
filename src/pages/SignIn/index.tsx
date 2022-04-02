@@ -1,5 +1,7 @@
 import React from 'react';
-import { Form, Button, Container, Card } from 'react-bootstrap';
+import {
+    Form, Button, Container, Card,
+} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Page } from 'components/Page';
 import { Cars } from 'components/Cars';
@@ -32,7 +34,7 @@ export const SignIn = () => (
                         >
                             Sign In
                         </Button>
-                        <Link to="/signup">Don't have an account?</Link>
+                        <Link to="/signup">Don&apos;t have an account?</Link>
                     </Card.Footer>
                 </Form>
             </Card>

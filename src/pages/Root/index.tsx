@@ -1,6 +1,8 @@
 import React from 'react';
 import { Page } from 'components/Page';
-import { Container, Card, Row, Col, Image } from 'react-bootstrap';
+import {
+    Container, Card, Row, Col, Image,
+} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import backkgroundImage from '../../img/road_ready.svg';
 import characterImage from '../../img/character_front.svg';
