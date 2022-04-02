@@ -1,5 +1,6 @@
 /// <reference types="node" />
-import * as React from 'react';
+// eslint-disable-next-line
+/// <reference types="react" />
 /// <reference types="react-dom" />
 
 declare namespace NodeJS {
@@ -45,6 +46,8 @@ declare module '*.webp' {
 }
 
 declare module '*.svg' {
+    import * as React from 'react';
+
     export const ReactComponent: React.FunctionComponent<
         React.SVGProps<SVGSVGElement> & { title?: string }
     >;
