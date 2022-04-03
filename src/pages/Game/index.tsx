@@ -1,13 +1,18 @@
-import React from 'react';
-import cn from 'classnames';
-import { Image } from 'components/Image';
+import React, { useEffect } from 'react';
+import GameEngine from 'components/canvas/GameEngine';
+import './game.css';
 
-import logo from 'img/logo.svg';
-import css from './Game.module.css';
+export const Game = () => {
+    useEffect(() => {
+        const game = new GameEngine();
+        return () => {
+            game.destroy();
+        };
+    });
 
-export const Game = () => (
-    <main className={cn(css.main, css.container)}>
-        <h1>Game</h1>
-        <Image src={logo} alt="react logo" width={300} height={300} />
-    </main>
-);
+    return (
+        <main className='game-wrapper'>
+            <canvas id='game-scene' width='1600px' height='820px'/>
+        </main>
+    );
+};

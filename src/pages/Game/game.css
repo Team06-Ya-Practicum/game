@@ -1,0 +1,18 @@
+.game-wrapper{
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: calc(100vh - 80px);
+  background: #1e3152;
+}
+
+#game-scene {
+  width: 1600px;
+  flex: 0 0 820px;
+  min-height: 820px;
+  border-radius: 15px;
+}
