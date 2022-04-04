@@ -1,0 +1,42 @@
+body {
+    background-color: #29486e;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+}
+
+#root {
+    width: 100vw;
+    height: 100vh;
+}
+
+.card {
+    background-color: #2d3c4f;
+    border: solid 2px #a9c0d0;
+    border-radius: 30px;
+}
+
+.form-control {
+    background-color: #c4c4c4;
+    border: 1px solid #c4c4c4;
+}
+
+.form-label {
+    color: #fff;
+}
+
+.btn-success {
+    background-color: #95e049;
+    border-color: #95e049;
+}
+
+.btn-success:hover {
+    background-color: #94e049d0;
+    border-color: #94e049d0;
+}
+
+.page-fixed-height {
+    height: calc(100% - 55px);
+}

@@ -1,11 +1,10 @@
-.main {
-    font-size: 16px;
-    margin: 0;
-    padding: 0;
+.root {
+    background-size: cover;
 }
 
-.container {
-    display: flex;
-    justify-content: center;
-    align-content: center;
+.introduction {
+    background-color: rgba(0, 0, 0, 0.75) !important;
+    color: #fff !important;
+    border: 0 !important;
+    border-radius: 15px !important;
 }

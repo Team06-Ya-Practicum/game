@@ -10,12 +10,7 @@
         "jest": true,
         "jest/globals": true
     },
-    "plugins": [
-        "@typescript-eslint",
-        "import",
-        "jest",
-        "react-hooks"
-    ],
+    "plugins": ["@typescript-eslint", "import", "jest", "react-hooks"],
     "extends": [
         "plugin:@typescript-eslint/recommended",
         "airbnb-base",
@@ -70,7 +65,13 @@
                 "readonly": "generic"
             }
         ],
-        "@typescript-eslint/ban-types": "error"
+        "@typescript-eslint/ban-types": "error",
+        "@typescript-eslint/triple-slash-reference": [
+            "error",
+            {
+                "types": "always"
+            }
+        ]
     },
     "overrides": [
         {
@@ -86,15 +87,18 @@
         }
     ],
     "settings": {
-       "react": {
-           "pragma": "React",
-           "version": "detect"
-       },
-       "import/resolver": {
-           "node": {
-               "extensions": [".js", ".ts", ".tsx"],
-               "moduleDirectory": ["node_modules", "src/"]
-           }
-       }
+        "react": {
+            "pragma": "React",
+            "version": "detect"
+        },
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".ts", ".tsx"],
+                "moduleDirectory": ["node_modules", "src/"]
+            }
+        }
+    },
+    "globals": {
+        "JSX": "readonly"
     }
 }

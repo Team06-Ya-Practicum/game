@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import GameEngine from 'components/canvas/GameEngine';
-import './game.css';
+import cn from 'classnames';
+import css from './Game.module.css';
 
 export const Game = () => {
     useEffect(() => {
@@ -11,7 +12,7 @@ export const Game = () => {
     });
 
     return (
-        <main className='game-wrapper'>
+        <main className={cn(css.main, css.container)}>
             <canvas id='game-scene' width='1600px' height='820px'/>
         </main>
     );
