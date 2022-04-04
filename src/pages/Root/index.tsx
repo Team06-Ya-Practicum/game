@@ -1,6 +1,8 @@
 import React from 'react';
 import cn from 'classnames';
-import { Container, Card, Row, Col, Image } from 'react-bootstrap';
+import {
+    Container, Card, Row, Col, Image,
+} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import characterImage from '../../img/character_front.svg';
 import backgroundImage from '../../img/road_ready.svg';
