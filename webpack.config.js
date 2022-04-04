@@ -44,6 +44,9 @@ module.exports = {
                     },
                     {
                         loader: 'css-loader',
+                        options: {
+                            modules: undefined,
+                        },
                     },
                     {
                         loader: 'postcss-loader',

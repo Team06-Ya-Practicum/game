@@ -6,43 +6,79 @@ import car3 from '../../img/car3.svg';
 import bus1 from '../../img/bus1.svg';
 import truck1 from '../../img/truck1.svg';
 
+const cars = [
+    {
+        img: car1,
+        width: 78,
+        height: 158,
+        top: '15%',
+        right: '30%',
+        bottom: 'auto',
+        left: 'auto',
+    },
+    {
+        img: car2,
+        width: 78,
+        height: 158,
+        top: '12%',
+        right: 'auto',
+        bottom: 'auto',
+        left: '15%',
+    },
+    {
+        img: car3,
+        width: 78,
+        height: 158,
+        top: 'auto',
+        right: '17%',
+        bottom: '10%',
+        left: 'auto',
+    },
+    {
+        img: car3,
+        width: 78,
+        height: 158,
+        top: '50%',
+        right: 'auto',
+        bottom: '5%',
+        left: '5%',
+    },
+    {
+        img: bus1,
+        width: 78,
+        height: 294,
+        top: 'auto',
+        right: 'auto',
+        bottom: '5%',
+        left: '25%',
+    },
+    {
+        img: truck1,
+        width: 88,
+        height: 303,
+        top: '30%',
+        right: '5%',
+        bottom: 'auto',
+        left: 'auto',
+    },
+];
+
 export const Cars = () => (
     <>
-        <Image
-            style={{ position: 'absolute', top: '15%', right: '30%' }}
-            src={car1}
-            width={78}
-            height={158}
-        />
-        <Image
-            style={{ position: 'absolute', top: '12%', left: '15%' }}
-            src={car2}
-            width={78}
-            height={158}
-        />
-        <Image
-            style={{ position: 'absolute', bottom: '10%', right: '17%' }}
-            src={car3}
-            width={78}
-            height={158}
-        />
-        <Image
-            style={{ position: 'absolute', top: '50%', left: '5%' }}
-            src={car3}
-            width={78}
-            height={158}
-        />
-        <Image
-            style={{ position: 'absolute', bottom: '5%', left: '25%' }}
-            src={bus1}
-            width={78}
-            height={294}
-        />
-        <Image
-            style={{ position: 'absolute', top: '30%', right: '5%' }}
-            src={truck1}
-            width={88}
-            height={303}
-        />
+        {cars.map((car, index) => (
+            <Image
+                key={index}
+                style={{
+                    position: 'absolute',
+                    top: car.top,
+                    right: car.right,
+                    bottom: car.bottom,
+                    left: car.left,
+                }}
+                src={car.img}
+                width={car.width}
+                height={car.height}
+            />
+        ))}
     </>
 );

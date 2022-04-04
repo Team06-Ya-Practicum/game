@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import { Image } from 'components/Image';
+import { Image } from 'react-bootstrap';
 
 import logo from 'img/logo.svg';
 import css from './Game.module.css';
