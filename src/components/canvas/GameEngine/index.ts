@@ -1,4 +1,4 @@
-import DisplayObject from 'components/canvas/DisplayObject';
+import DisplayObject, { IProps } from 'components/canvas/DisplayObject';
 import Sprite from 'components/canvas/Sprite';
 import { GAME_LOOP_RENDER_RATE } from 'utils/constants';
 import backgroundImg from '../../../assets/sprites/background.png';
@@ -8,12 +8,12 @@ class GameEngine {
 
     private readonly ctxInner: CanvasRenderingContext2D;
 
-    private children: Array<DisplayObject<any>>;
+    private children: Array<DisplayObject<IProps>>;
 
     private animRequestId: number;
 
-    constructor() {
-        const canvas = document.querySelector('#game-scene') as HTMLCanvasElement;
+    constructor(canvasSelector: string) {
+        const canvas = document.querySelector(canvasSelector) as HTMLCanvasElement;
         if (!canvas) {
             throw new Error('No canvas found, shutting down');
         }

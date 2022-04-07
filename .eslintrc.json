@@ -71,7 +71,13 @@
             {
                 "types": "always"
             }
-        ]
+        ],
+        "no-param-reassign": ["error", {
+            "props": true,
+            "ignorePropertyModificationsFor": [
+                "state"
+            ]
+        }]
     },
     "overrides": [
         {
