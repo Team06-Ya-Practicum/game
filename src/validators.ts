@@ -7,7 +7,7 @@ export const loginValidator = requiredFiled
     .max(20, 'Should be less than or equal to 20 symbols')
     .matches(
         /^(?=.*[A-Za-z])[-_A-Za-z\d]{3,20}$/,
-        'Latin, can contain numbers, but not consist of them, no spaces, no special characters (hyphens and underscores are allowed)'
+        'Latin, can contain numbers, but not consist of them, no spaces, no special characters (hyphens and underscores are allowed)',
     );
 
 export const emailValidator = requiredFiled.email('Invalid email');
@@ -17,7 +17,7 @@ export const passwordValidator = requiredFiled
     .max(40, 'Should be less than or equal to 40 symbols')
     .matches(
         /^(?=.*\d)(?=.*[A-Z]).{8,40}$/,
-        'At least one capital letter and a number are required'
+        'At least one capital letter and a number are required',
     );
 
 export const phoneValidator = requiredFiled
@@ -27,8 +27,7 @@ export const phoneValidator = requiredFiled
 
 export const nameValidator = requiredFiled.matches(
     /(^[A-Z][a-z-]*[a-z]$)|(^[А-ЯЁ][а-яё-]*[а-яё]$)/,
-    'Latin or Cyrillic, the first letter must be capital, no spaces and no numbers, no special characters (only a hyphen is allowed)'
+    'Latin or Cyrillic, the first letter must be capital, no spaces and no numbers, no special characters (only a hyphen is allowed)',
 );
 
-export const passwordConfirmationValidator = (ref: string) =>
-    requiredFiled.oneOf([Yup.ref(ref), null], 'Passwords must match');
+export const passwordConfirmationValidator = (ref: string) => requiredFiled.oneOf([Yup.ref(ref), null], 'Passwords must match');

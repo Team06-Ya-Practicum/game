@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Form, Button, Container, Card, Alert } from 'react-bootstrap';
+import {
+    Form, Button, Container, Card, Alert,
+} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router';
@@ -28,11 +30,11 @@ export const SignIn = () => {
                         login,
                         password,
                     },
-                    { withCredentials: true }
+                    { withCredentials: true },
                 );
                 navigate('/game');
-            } catch (error) {
-                setError(error.response.data.reason);
+            } catch (e: any) {
+                setError(e.response.data.reason);
             }
         },
     });
@@ -59,10 +61,16 @@ export const SignIn = () => {
                                 onChange={formik.handleChange}
                                 value={formik.values.login}
                                 isInvalid={
-                                    formik.errors.login && formik.touched.login
+                                    !!(
+                                        formik.errors.login
+                                        && formik.touched.login
+                                    )
                                 }
                                 isValid={
-                                    !formik.errors.login && formik.touched.login
+                                    !!(
+                                        !formik.errors.login
+                                        && formik.touched.login
+                                    )
                                 }
                             />
                         </Form.Group>
@@ -75,11 +83,16 @@ export const SignIn = () => {
                                 onChange={formik.handleChange}
                                 value={formik.values.password}
                                 isInvalid={
-                                    formik.errors.password &&
-                                    formik.touched.password
+                                    !!(
+                                        formik.errors.password
+                                        && formik.touched.password
+                                    )
                                 }
                                 isValid={
-                                    !formik.errors.login && formik.touched.login
+                                    !!(
+                                        !formik.errors.password
+                                        && formik.touched.password
+                                    )
                                 }
                             />
                         </Form.Group>

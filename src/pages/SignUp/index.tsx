@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Form, Button, Container, Card, Alert } from 'react-bootstrap';
+import {
+    Form, Button, Container, Card, Alert,
+} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import { useFormik } from 'formik';
@@ -15,8 +17,8 @@ export const SignUp = () => {
         initialValues: {
             login: '',
             email: '',
-            first_name: '',
-            second_name: '',
+            firstName: '',
+            secondName: '',
             password: '',
             password_confirmation: '',
             phone: '',
@@ -24,8 +26,8 @@ export const SignUp = () => {
         validationSchema: Yup.object({
             login: Validators.loginValidator,
             email: Validators.emailValidator,
-            first_name: Validators.nameValidator,
-            second_name: Validators.nameValidator,
+            firstName: Validators.nameValidator,
+            secondName: Validators.nameValidator,
             password: Validators.passwordValidator,
             password_confirmation:
                 Validators.passwordConfirmationValidator('password'),
@@ -34,8 +36,8 @@ export const SignUp = () => {
         onSubmit: async ({
             login,
             email,
-            first_name,
-            second_name,
+            firstName,
+            secondName,
             password,
             phone,
         }) => {
@@ -45,16 +47,16 @@ export const SignUp = () => {
                     {
                         login,
                         email,
-                        first_name,
-                        second_name,
+                        first_name: firstName,
+                        second_name: secondName,
                         password,
                         phone,
                     },
-                    { withCredentials: true }
+                    { withCredentials: true },
                 );
                 navigate('/game');
-            } catch (error) {
-                setError(error.response.data.reason);
+            } catch (e: any) {
+                setError(e.response.data.reason);
             }
         },
     });
@@ -82,10 +84,16 @@ export const SignUp = () => {
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 isInvalid={
-                                    formik.errors.email && formik.touched.email
+                                    !!(
+                                        formik.errors.email
+                                        && formik.touched.email
+                                    )
                                 }
                                 isValid={
-                                    !formik.errors.email && formik.touched.email
+                                    !!(
+                                        !formik.errors.email
+                                        && formik.touched.email
+                                    )
                                 }
                             />
                             {formik.errors.email && formik.touched.email ? (
@@ -104,10 +112,16 @@ export const SignUp = () => {
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 isInvalid={
-                                    formik.errors.login && formik.touched.login
+                                    !!(
+                                        formik.errors.login
+                                        && formik.touched.login
+                                    )
                                 }
                                 isValid={
-                                    !formik.errors.login && formik.touched.login
+                                    !!(
+                                        !formik.errors.login
+                                        && formik.touched.login
+                                    )
                                 }
                             />
                             {formik.errors.login && formik.touched.login ? (
@@ -121,50 +135,58 @@ export const SignUp = () => {
                             <Form.Label>Name</Form.Label>
                             <Form.Control
                                 type="text"
-                                name="first_name"
-                                value={formik.values.first_name}
+                                name="firstName"
+                                value={formik.values.firstName}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 isInvalid={
-                                    formik.errors.first_name &&
-                                    formik.touched.first_name
+                                    !!(
+                                        formik.errors.firstName
+                                        && formik.touched.firstName
+                                    )
                                 }
                                 isValid={
-                                    !formik.errors.first_name &&
-                                    formik.touched.first_name
+                                    !!(
+                                        !formik.errors.firstName
+                                        && formik.touched.firstName
+                                    )
                                 }
                             />
-                            {formik.errors.first_name &&
-                            formik.touched.first_name ? (
-                                <Form.Control.Feedback type="invalid">
-                                    {formik.errors.first_name}
-                                </Form.Control.Feedback>
-                            ) : null}
+                            {formik.errors.firstName
+                            && formik.touched.firstName ? (
+                                    <Form.Control.Feedback type="invalid">
+                                        {formik.errors.firstName}
+                                    </Form.Control.Feedback>
+                                ) : null}
                         </Form.Group>
 
                         <Form.Group className="mb-3">
                             <Form.Label>Surname</Form.Label>
                             <Form.Control
                                 type="text"
-                                name="second_name"
-                                value={formik.values.second_name}
+                                name="secondName"
+                                value={formik.values.secondName}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 isInvalid={
-                                    formik.errors.second_name &&
-                                    formik.touched.second_name
+                                    !!(
+                                        formik.errors.secondName
+                                        && formik.touched.secondName
+                                    )
                                 }
                                 isValid={
-                                    !formik.errors.second_name &&
-                                    formik.touched.second_name
+                                    !!(
+                                        !formik.errors.secondName
+                                        && formik.touched.secondName
+                                    )
                                 }
                             />
-                            {formik.errors.second_name &&
-                            formik.touched.second_name ? (
-                                <Form.Control.Feedback type="invalid">
-                                    {formik.errors.second_name}
-                                </Form.Control.Feedback>
-                            ) : null}
+                            {formik.errors.secondName
+                            && formik.touched.secondName ? (
+                                    <Form.Control.Feedback type="invalid">
+                                        {formik.errors.secondName}
+                                    </Form.Control.Feedback>
+                                ) : null}
                         </Form.Group>
 
                         <Form.Group className="mb-3">
@@ -176,10 +198,16 @@ export const SignUp = () => {
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 isInvalid={
-                                    formik.errors.phone && formik.touched.phone
+                                    !!(
+                                        formik.errors.phone
+                                        && formik.touched.phone
+                                    )
                                 }
                                 isValid={
-                                    !formik.errors.phone && formik.touched.phone
+                                    !!(
+                                        !formik.errors.phone
+                                        && formik.touched.phone
+                                    )
                                 }
                             />
                             {formik.errors.phone && formik.touched.phone ? (
@@ -198,20 +226,24 @@ export const SignUp = () => {
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 isInvalid={
-                                    formik.errors.password &&
-                                    formik.touched.password
+                                    !!(
+                                        formik.errors.password
+                                        && formik.touched.password
+                                    )
                                 }
                                 isValid={
-                                    !formik.errors.password &&
-                                    formik.touched.password
+                                    !!(
+                                        !formik.errors.password
+                                        && formik.touched.password
+                                    )
                                 }
                             />
-                            {formik.errors.password &&
-                            formik.touched.password ? (
-                                <Form.Control.Feedback type="invalid">
-                                    {formik.errors.password}
-                                </Form.Control.Feedback>
-                            ) : null}
+                            {formik.errors.password
+                            && formik.touched.password ? (
+                                    <Form.Control.Feedback type="invalid">
+                                        {formik.errors.password}
+                                    </Form.Control.Feedback>
+                                ) : null}
                         </Form.Group>
 
                         <Form.Group className="mb-3">
@@ -223,20 +255,24 @@ export const SignUp = () => {
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 isInvalid={
-                                    formik.errors.password_confirmation &&
-                                    formik.touched.password_confirmation
+                                    !!(
+                                        formik.errors.password_confirmation
+                                        && formik.touched.password_confirmation
+                                    )
                                 }
                                 isValid={
-                                    !formik.errors.password_confirmation &&
-                                    formik.touched.password_confirmation
+                                    !!(
+                                        !formik.errors.password_confirmation
+                                        && formik.touched.password_confirmation
+                                    )
                                 }
                             />
-                            {formik.errors.password_confirmation &&
-                            formik.touched.password_confirmation ? (
-                                <Form.Control.Feedback type="invalid">
-                                    {formik.errors.password_confirmation}
-                                </Form.Control.Feedback>
-                            ) : null}
+                            {formik.errors.password_confirmation
+                            && formik.touched.password_confirmation ? (
+                                    <Form.Control.Feedback type="invalid">
+                                        {formik.errors.password_confirmation}
+                                    </Form.Control.Feedback>
+                                ) : null}
                         </Form.Group>
                     </Card.Body>
                     <Card.Footer className="text-center">
