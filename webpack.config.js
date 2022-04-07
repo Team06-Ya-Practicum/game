@@ -14,6 +14,16 @@ module.exports = {
         port: 8080,
         hot: true,
         historyApiFallback: true,
+        proxy: {
+            '/api': {
+                target: 'https://ya-praktikum.tech',
+                withCredentials: true,
+                cookieDomainRewrite: { 'ya-praktikum.tech': 'localhost' },
+                pathRewrite: { '^/api': '/api/v2/' },
+                secure: false,
+                changeOrigin: true,
+            },
+        },
         compress: true,
         client: {
             overlay: true,

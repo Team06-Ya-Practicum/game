@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { Route, Routes } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { Navbar, Container } from 'react-bootstrap';
+import { PublicRoute } from 'components/PublicRoute';
+import { PrivateRoute } from 'components/PrivateRoute';
 import { Root } from 'pages/Root';
 import { NotFound } from 'pages/NotFound';
 import { Game } from 'pages/Game';
@@ -22,15 +24,33 @@ const App = () => (
             </Container>
         </Navbar>
 
-        <div className="d-flex flex-column h-100">
+        <div className="d-flex flex-column h-100 p-3">
             <Routes>
                 <Route path="/" element={<Root />} />
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/game" element={<Game />} />
-                <Route path="/leaderboard" element={<Leaderboard />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/forum" element={<Forum />} />
+                <Route
+                    path="/signin"
+                    element={<PublicRoute component={<SignIn />} />}
+                />
+                <Route
+                    path="/signup"
+                    element={<PublicRoute component={<SignUp />} />}
+                />
+                <Route
+                    path="/game"
+                    element={<PrivateRoute component={<Game />} />}
+                />
+                <Route
+                    path="/leaderboard"
+                    element={<PrivateRoute component={<Leaderboard />} />}
+                />
+                <Route
+                    path="/profile"
+                    element={<PrivateRoute component={<Profile />} />}
+                />
+                <Route
+                    path="/forum"
+                    element={<PrivateRoute component={<Forum />} />}
+                />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </div>
@@ -41,5 +61,5 @@ ReactDOM.render(
     <BrowserRouter>
         <App />
     </BrowserRouter>,
-    document.getElementById('root'),
+    document.getElementById('root')
 );
