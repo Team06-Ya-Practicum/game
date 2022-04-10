@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router';
+import { getUserInfo } from '../../controllers/user';
 
 interface IPublicRouteProps {
     component: JSX.Element;
 }
 
-export const PublicRoute = (props: IPublicRouteProps) => {
-    const { component } = props;
+export const PublicRoute = ({ component }: IPublicRouteProps) => {
     const [isAuthorized, setIsAuthorized] = useState(false);
-    axios
-        .get('/api/auth/user', { withCredentials: true })
-        .then(() => setIsAuthorized(true));
+    useEffect(() => {
+        getUserInfo().then(response => {
+            if (response.status) {
+                setIsAuthorized(true);
+            }
+        });
+    }, []);
 
     if (isAuthorized) {
         return <Navigate to="/game" />;

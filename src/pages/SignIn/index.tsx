@@ -5,10 +5,12 @@ import {
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router';
-import axios from 'axios';
 import * as Yup from 'yup';
 import * as Validators from '../../validators';
 import { Cars } from '../../components/Cars';
+import { Input } from '../../components/Input';
+import { signIn } from '../../controllers/authorization';
+import { ROUTES } from '../..';
 
 export const SignIn = () => {
     const [error, setError] = useState(null);
@@ -23,18 +25,11 @@ export const SignIn = () => {
             password: Validators.passwordValidator,
         }),
         onSubmit: async ({ login, password }) => {
-            try {
-                await axios.post(
-                    '/api/auth/signin',
-                    {
-                        login,
-                        password,
-                    },
-                    { withCredentials: true },
-                );
-                navigate('/game');
-            } catch (e: any) {
-                setError(e.response.data.reason);
+            const response = await signIn({ login, password });
+            if (response.status) {
+                navigate(ROUTES.GAME);
+            } else {
+                setError(response.message);
             }
         },
     });
@@ -53,49 +48,23 @@ export const SignIn = () => {
             <Card className="w-25">
                 <Form onSubmit={formik.handleSubmit}>
                     <Card.Body>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Login</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="login"
-                                onChange={formik.handleChange}
-                                value={formik.values.login}
-                                isInvalid={
-                                    !!(
-                                        formik.errors.login
-                                        && formik.touched.login
-                                    )
-                                }
-                                isValid={
-                                    !!(
-                                        !formik.errors.login
-                                        && formik.touched.login
-                                    )
-                                }
-                            />
-                        </Form.Group>
+                        <Input
+                            label="Login"
+                            name="login"
+                            formik={formik}
+                            type="text"
+                            isBlur={false}
+                            isError={false}
+                        />
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                name="password"
-                                onChange={formik.handleChange}
-                                value={formik.values.password}
-                                isInvalid={
-                                    !!(
-                                        formik.errors.password
-                                        && formik.touched.password
-                                    )
-                                }
-                                isValid={
-                                    !!(
-                                        !formik.errors.password
-                                        && formik.touched.password
-                                    )
-                                }
-                            />
-                        </Form.Group>
+                        <Input
+                            label="Password"
+                            name="password"
+                            formik={formik}
+                            type="password"
+                            isBlur={false}
+                            isError={false}
+                        />
                     </Card.Body>
                     <Card.Footer className="text-center">
                         <Button

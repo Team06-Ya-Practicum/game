@@ -5,10 +5,12 @@ import {
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import { useFormik } from 'formik';
-import axios from 'axios';
 import * as Yup from 'yup';
 import * as Validators from '../../validators';
 import { Cars } from '../../components/Cars';
+import { Input } from '../../components/Input';
+import { signUp } from '../../controllers/authorization';
+import { ROUTES } from '../../index';
 
 export const SignUp = () => {
     const [error, setError] = useState(null);
@@ -41,22 +43,18 @@ export const SignUp = () => {
             password,
             phone,
         }) => {
-            try {
-                await axios.post(
-                    '/api/auth/signup',
-                    {
-                        login,
-                        email,
-                        first_name: firstName,
-                        second_name: secondName,
-                        password,
-                        phone,
-                    },
-                    { withCredentials: true },
-                );
-                navigate('/game');
-            } catch (e: any) {
-                setError(e.response.data.reason);
+            const response = await signUp({
+                login,
+                email,
+                firstName,
+                secondName,
+                password,
+                phone,
+            });
+            if (response.status) {
+                navigate(ROUTES.GAME);
+            } else {
+                setError(response.message);
             }
         },
     });
@@ -75,205 +73,68 @@ export const SignUp = () => {
             <Card className="w-25">
                 <Form onSubmit={formik.handleSubmit}>
                     <Card.Body>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                type="email"
-                                name="email"
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                isInvalid={
-                                    !!(
-                                        formik.errors.email
-                                        && formik.touched.email
-                                    )
-                                }
-                                isValid={
-                                    !!(
-                                        !formik.errors.email
-                                        && formik.touched.email
-                                    )
-                                }
-                            />
-                            {formik.errors.email && formik.touched.email ? (
-                                <Form.Control.Feedback type="invalid">
-                                    {formik.errors.email}
-                                </Form.Control.Feedback>
-                            ) : null}
-                        </Form.Group>
+                        <Input
+                            label="Email"
+                            type="email"
+                            name="email"
+                            formik={formik}
+                            isBlur={true}
+                            isError={true}
+                        />
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Login</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="login"
-                                value={formik.values.login}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                isInvalid={
-                                    !!(
-                                        formik.errors.login
-                                        && formik.touched.login
-                                    )
-                                }
-                                isValid={
-                                    !!(
-                                        !formik.errors.login
-                                        && formik.touched.login
-                                    )
-                                }
-                            />
-                            {formik.errors.login && formik.touched.login ? (
-                                <Form.Control.Feedback type="invalid">
-                                    {formik.errors.login}
-                                </Form.Control.Feedback>
-                            ) : null}
-                        </Form.Group>
+                        <Input
+                            label="Login"
+                            type="text"
+                            name="login"
+                            formik={formik}
+                            isBlur={true}
+                            isError={true}
+                        />
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="firstName"
-                                value={formik.values.firstName}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                isInvalid={
-                                    !!(
-                                        formik.errors.firstName
-                                        && formik.touched.firstName
-                                    )
-                                }
-                                isValid={
-                                    !!(
-                                        !formik.errors.firstName
-                                        && formik.touched.firstName
-                                    )
-                                }
-                            />
-                            {formik.errors.firstName
-                            && formik.touched.firstName ? (
-                                    <Form.Control.Feedback type="invalid">
-                                        {formik.errors.firstName}
-                                    </Form.Control.Feedback>
-                                ) : null}
-                        </Form.Group>
+                        <Input
+                            label="Name"
+                            type="text"
+                            name="firstName"
+                            formik={formik}
+                            isBlur={true}
+                            isError={true}
+                        />
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Surname</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="secondName"
-                                value={formik.values.secondName}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                isInvalid={
-                                    !!(
-                                        formik.errors.secondName
-                                        && formik.touched.secondName
-                                    )
-                                }
-                                isValid={
-                                    !!(
-                                        !formik.errors.secondName
-                                        && formik.touched.secondName
-                                    )
-                                }
-                            />
-                            {formik.errors.secondName
-                            && formik.touched.secondName ? (
-                                    <Form.Control.Feedback type="invalid">
-                                        {formik.errors.secondName}
-                                    </Form.Control.Feedback>
-                                ) : null}
-                        </Form.Group>
+                        <Input
+                            label="Surname"
+                            type="text"
+                            name="secondName"
+                            formik={formik}
+                            isBlur={true}
+                            isError={true}
+                        />
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Phone</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="phone"
-                                value={formik.values.phone}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                isInvalid={
-                                    !!(
-                                        formik.errors.phone
-                                        && formik.touched.phone
-                                    )
-                                }
-                                isValid={
-                                    !!(
-                                        !formik.errors.phone
-                                        && formik.touched.phone
-                                    )
-                                }
-                            />
-                            {formik.errors.phone && formik.touched.phone ? (
-                                <Form.Control.Feedback type="invalid">
-                                    {formik.errors.phone}
-                                </Form.Control.Feedback>
-                            ) : null}
-                        </Form.Group>
+                        <Input
+                            label="Phone"
+                            type="text"
+                            name="phone"
+                            formik={formik}
+                            isBlur={true}
+                            isError={true}
+                        />
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                name="password"
-                                value={formik.values.password}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                isInvalid={
-                                    !!(
-                                        formik.errors.password
-                                        && formik.touched.password
-                                    )
-                                }
-                                isValid={
-                                    !!(
-                                        !formik.errors.password
-                                        && formik.touched.password
-                                    )
-                                }
-                            />
-                            {formik.errors.password
-                            && formik.touched.password ? (
-                                    <Form.Control.Feedback type="invalid">
-                                        {formik.errors.password}
-                                    </Form.Control.Feedback>
-                                ) : null}
-                        </Form.Group>
+                        <Input
+                            label="Password"
+                            type="password"
+                            name="password"
+                            formik={formik}
+                            isBlur={true}
+                            isError={true}
+                        />
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Password (repeat)</Form.Label>
-                            <Form.Control
-                                type="password"
-                                name="password_confirmation"
-                                value={formik.values.password_confirmation}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                isInvalid={
-                                    !!(
-                                        formik.errors.password_confirmation
-                                        && formik.touched.password_confirmation
-                                    )
-                                }
-                                isValid={
-                                    !!(
-                                        !formik.errors.password_confirmation
-                                        && formik.touched.password_confirmation
-                                    )
-                                }
-                            />
-                            {formik.errors.password_confirmation
-                            && formik.touched.password_confirmation ? (
-                                    <Form.Control.Feedback type="invalid">
-                                        {formik.errors.password_confirmation}
-                                    </Form.Control.Feedback>
-                                ) : null}
-                        </Form.Group>
+                        <Input
+                            label="Password (repeat)"
+                            type="password"
+                            name="password_confirmation"
+                            formik={formik}
+                            isBlur={true}
+                            isError={true}
+                        />
                     </Card.Body>
                     <Card.Footer className="text-center">
                         <Button

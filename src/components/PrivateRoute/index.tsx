@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router';
+import { getUserInfo } from '../../controllers/user';
 
 interface IPrivateRouteProps {
     component: JSX.Element;
 }
 
-export const PrivateRoute = (props: IPrivateRouteProps) => {
-    const { component } = props;
+export const PrivateRoute = ({ component }: IPrivateRouteProps) => {
     const [isAuthorized, setIsAuthorized] = useState(true);
-    axios
-        .get('/api/auth/user', { withCredentials: true })
-        .catch(() => setIsAuthorized(false));
+    useEffect(() => {
+        getUserInfo().then(response => {
+            if (!response.status) {
+                setIsAuthorized(false);
+            }
+        });
+    }, []);
 
     if (!isAuthorized) {
         return <Navigate to="/signin" />;

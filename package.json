@@ -14,7 +14,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Jarith/react-redux-starter.git"
+        "url": "git+https://github.com/Team06-Ya-Practicum/game.git"
     },
     "keywords": [],
     "author": "jarith",
@@ -68,7 +68,7 @@
         "yup": "0.32.11"
     },
     "bugs": {
-        "url": "https://github.com/Jarith/react-redux-starter/issues"
+        "url": "https://github.com/Team06-Ya-Practicum/game/issues"
     },
-    "homepage": "https://github.com/Jarith/react-redux-starter#readme"
+    "homepage": "https://github.com/Team06-Ya-Practicum/game#readme"
 }
