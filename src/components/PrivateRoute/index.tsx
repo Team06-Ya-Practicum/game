@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router';
 import { getUserInfo } from '../../controllers/user';
+import { ROUTES } from '../../index';
 
 interface IPrivateRouteProps {
     component: JSX.Element;
@@ -17,7 +18,7 @@ export const PrivateRoute = ({ component }: IPrivateRouteProps) => {
     }, []);
 
     if (!isAuthorized) {
-        return <Navigate to="/signin" />;
+        return <Navigate to={ROUTES.SIGN_IN} />;
     }
 
     return component;

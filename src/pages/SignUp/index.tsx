@@ -144,7 +144,7 @@ export const SignUp = () => {
                         >
                             Sign Up
                         </Button>
-                        <Link to="/signin">Do you have an account?</Link>
+                        <Link to={ROUTES.SIGN_IN}>Do you have an account?</Link>
                     </Card.Footer>
                 </Form>
             </Card>

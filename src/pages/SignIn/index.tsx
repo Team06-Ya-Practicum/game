@@ -10,7 +10,7 @@ import * as Validators from '../../validators';
 import { Cars } from '../../components/Cars';
 import { Input } from '../../components/Input';
 import { signIn } from '../../controllers/authorization';
-import { ROUTES } from '../..';
+import { ROUTES } from '../../index';
 
 export const SignIn = () => {
     const [error, setError] = useState(null);
@@ -74,7 +74,9 @@ export const SignIn = () => {
                         >
                             Sign In
                         </Button>
-                        <Link to="/signup">Don&apos;t have an account?</Link>
+                        <Link to={ROUTES.SIGN_UP}>
+                            Don&apos;t have an account?
+                        </Link>
                     </Card.Footer>
                 </Form>
             </Card>
