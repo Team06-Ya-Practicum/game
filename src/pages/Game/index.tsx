@@ -15,7 +15,7 @@ export const Game = () => {
 
     return (
         <main className={cn(css.main, css.container)}>
-            <canvas id={CANVAS_ID} width='1600px' height='820px'/>
+            <canvas id={CANVAS_ID}/>
         </main>
     );
 };
