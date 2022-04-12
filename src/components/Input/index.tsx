@@ -5,33 +5,41 @@ interface IInputProps {
     label: string;
     type: string;
     name: string;
-    formik: Record<string, any>;
-    isBlur: boolean;
-    isError: boolean;
+    onChange: any;
+    onBlur?: any;
+    value: any;
+    status: 'normal' | 'error';
+    isValid: boolean;
+    isInvalid: boolean;
+    errorMessage?: string | undefined;
 }
 
 export const Input = ({
     label,
     name,
-    formik,
-    isBlur = false,
-    isError = false,
+    onChange,
+    onBlur,
+    value,
+    isValid,
+    isInvalid,
     type = 'text',
+    status = 'normal',
+    errorMessage = '',
 }: IInputProps) => (
     <Form.Group className="mb-3">
         <Form.Label>{label}</Form.Label>
         <Form.Control
             type={type}
             name={name}
-            onChange={formik.handleChange}
-            onBlur={isBlur ? formik.handleBlur : undefined}
-            value={formik.values[name]}
-            isInvalid={!!(formik.errors[name] && formik.touched[name])}
-            isValid={!!(!formik.errors[name] && formik.touched[name])}
+            onChange={onChange}
+            onBlur={onBlur}
+            value={value}
+            isInvalid={isInvalid}
+            isValid={isValid}
         />
-        {isError && formik.errors[name] && formik.touched[name] ? (
+        {status === 'error' && isInvalid ? (
             <Form.Control.Feedback type="invalid">
-                {formik.errors[name]}
+                {errorMessage}
             </Form.Control.Feedback>
         ) : null}
     </Form.Group>

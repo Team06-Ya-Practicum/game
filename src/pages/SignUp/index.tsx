@@ -77,63 +77,143 @@ export const SignUp = () => {
                             label="Email"
                             type="email"
                             name="email"
-                            formik={formik}
-                            isBlur={true}
-                            isError={true}
+                            status="error"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isValid={
+                                !!(!formik.errors.email && formik.touched.email)
+                            }
+                            isInvalid={
+                                !!(formik.errors.email && formik.touched.email)
+                            }
+                            errorMessage={formik.errors.email}
                         />
 
                         <Input
                             label="Login"
                             type="text"
                             name="login"
-                            formik={formik}
-                            isBlur={true}
-                            isError={true}
+                            status="error"
+                            value={formik.values.login}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isValid={
+                                !!(!formik.errors.login && formik.touched.login)
+                            }
+                            isInvalid={
+                                !!(formik.errors.login && formik.touched.login)
+                            }
+                            errorMessage={formik.errors.login}
                         />
 
                         <Input
                             label="Name"
                             type="text"
                             name="firstName"
-                            formik={formik}
-                            isBlur={true}
-                            isError={true}
+                            status="error"
+                            value={formik.values.firstName}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isValid={
+                                !!(
+                                    !formik.errors.firstName
+                                    && formik.touched.firstName
+                                )
+                            }
+                            isInvalid={
+                                !!(
+                                    formik.errors.firstName
+                                    && formik.touched.firstName
+                                )
+                            }
+                            errorMessage={formik.errors.firstName}
                         />
 
                         <Input
                             label="Surname"
                             type="text"
                             name="secondName"
-                            formik={formik}
-                            isBlur={true}
-                            isError={true}
+                            status="error"
+                            value={formik.values.secondName}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isValid={
+                                !!(
+                                    !formik.errors.secondName
+                                    && formik.touched.secondName
+                                )
+                            }
+                            isInvalid={
+                                !!(
+                                    formik.errors.secondName
+                                    && formik.touched.secondName
+                                )
+                            }
+                            errorMessage={formik.errors.secondName}
                         />
 
                         <Input
                             label="Phone"
                             type="text"
                             name="phone"
-                            formik={formik}
-                            isBlur={true}
-                            isError={true}
+                            status="error"
+                            value={formik.values.phone}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isValid={
+                                !!(!formik.errors.phone && formik.touched.phone)
+                            }
+                            isInvalid={
+                                !!(formik.errors.phone && formik.touched.phone)
+                            }
+                            errorMessage={formik.errors.phone}
                         />
 
                         <Input
                             label="Password"
                             type="password"
                             name="password"
-                            formik={formik}
-                            isBlur={true}
-                            isError={true}
+                            status="error"
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isValid={
+                                !!(
+                                    !formik.errors.password
+                                    && formik.touched.password
+                                )
+                            }
+                            isInvalid={
+                                !!(
+                                    formik.errors.password
+                                    && formik.touched.password
+                                )
+                            }
+                            errorMessage={formik.errors.password}
                         />
 
                         <Input
                             label="Password (repeat)"
                             type="password"
                             name="password_confirmation"
-                            formik={formik}
-                            isBlur={true}
-                            isError={true}
+                            status="error"
+                            value={formik.values.password_confirmation}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isValid={
+                                !!(
+                                    !formik.errors.password_confirmation
+                                    && formik.touched.password_confirmation
+                                )
+                            }
+                            isInvalid={
+                                !!(
+                                    formik.errors.password_confirmation
+                                    && formik.touched.password_confirmation
+                                )
+                            }
+                            errorMessage={formik.errors.password_confirmation}
                         />
                     </Card.Body>
                     <Card.Footer className="text-center">

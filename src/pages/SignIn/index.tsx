@@ -51,19 +51,37 @@ export const SignIn = () => {
                         <Input
                             label="Login"
                             name="login"
-                            formik={formik}
                             type="text"
-                            isBlur={false}
-                            isError={false}
+                            status="normal"
+                            value={formik.values.login}
+                            onChange={formik.handleChange}
+                            isValid={
+                                !!(!formik.errors.login && formik.touched.login)
+                            }
+                            isInvalid={
+                                !!(formik.errors.login && formik.touched.login)
+                            }
                         />
 
                         <Input
                             label="Password"
                             name="password"
-                            formik={formik}
                             type="password"
-                            isBlur={false}
-                            isError={false}
+                            status="normal"
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
+                            isValid={
+                                !!(
+                                    !formik.errors.password
+                                    && formik.touched.password
+                                )
+                            }
+                            isInvalid={
+                                !!(
+                                    formik.errors.password
+                                    && formik.touched.password
+                                )
+                            }
                         />
                     </Card.Body>
                     <Card.Footer className="text-center">
