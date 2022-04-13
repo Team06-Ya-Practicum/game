@@ -66,7 +66,7 @@
     "react-router-dom": "6.2.2",
     "redux": "4.1.2",
     "yup": "0.32.11",
-    "formik": "2.2.9",
+    "formik": "2.2.9"
   },
   "bugs": {
     "url": "https://github.com/Team06-Ya-Practicum/game/issues"
