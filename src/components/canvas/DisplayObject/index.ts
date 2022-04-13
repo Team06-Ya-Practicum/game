@@ -2,14 +2,14 @@ export interface IProps {
     id?: string
 }
 
-abstract class DisplayObject<T extends IProps> {
-    private propsInner: T;
+abstract class DisplayObject<TProps extends IProps> {
+    private propsInner: TProps;
 
-    protected constructor(props: T) {
+    protected constructor(props: TProps) {
         this.propsInner = props;
     }
 
-    get props(): T {
+    get props(): TProps {
         return this.propsInner;
     }
 

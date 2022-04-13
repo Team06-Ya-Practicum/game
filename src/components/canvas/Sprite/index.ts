@@ -15,10 +15,10 @@ export interface ISpriteProps extends ISpriteOrigin {
     dHeight: number
 }
 
-class Sprite<T extends ISpriteProps> extends DisplayObject<T> {
+class Sprite<TSpriteProps extends ISpriteProps> extends DisplayObject<TSpriteProps> {
     private readonly image: HTMLImageElement;
 
-    constructor(props: T) {
+    constructor(props: TSpriteProps) {
         super(props);
         this.image = document.createElement('img');
         this.image.src = props.src;
