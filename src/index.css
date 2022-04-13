@@ -36,3 +36,7 @@ body {
     background-color: #94e049d0;
     border-color: #94e049d0;
 }
+
+.page-fixed-height {
+    height: calc(100% - 55px);
+}

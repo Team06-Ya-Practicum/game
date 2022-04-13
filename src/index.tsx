@@ -22,7 +22,7 @@ const App = () => (
             </Container>
         </Navbar>
 
-        <div className="d-flex flex-column h-100">
+        <div className="d-flex flex-column page-fixed-height">
             <Routes>
                 <Route path="/" element={<Root />} />
                 <Route path="/signin" element={<SignIn />} />
