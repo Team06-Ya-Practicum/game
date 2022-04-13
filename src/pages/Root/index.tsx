@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import characterImage from '../../img/character_front.svg';
 import backgroundImage from '../../img/road_ready.svg';
 import css from './Root.module.css';
+import { ROUTES } from '../../index';
 
 export const Root = () => (
     <Container
@@ -33,11 +34,11 @@ export const Root = () => (
                     >
                         <Link
                             className="w-100 mb-3 btn btn-success"
-                            to="/signup"
+                            to={ROUTES.SIGN_UP}
                         >
                             REGISTER
                         </Link>
-                        <Link className="w-100 btn btn-danger" to="/game">
+                        <Link className="w-100 btn btn-danger" to={ROUTES.GAME}>
                             PLAY
                         </Link>
                     </Col>

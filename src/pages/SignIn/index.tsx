@@ -1,37 +1,103 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-    Form, Button, Container, Card,
+    Form, Button, Container, Card, Alert,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { Cars } from 'components/Cars';
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router';
+import * as Yup from 'yup';
+import * as Validators from '../../validators';
+import { Cars } from '../../components/Cars';
+import { Input } from '../../components/Input';
+import { signIn } from '../../controllers/authorization';
+import { ROUTES } from '../../index';
 
-export const SignIn = () => (
-    <Container className="d-flex mt-auto mb-auto justify-content-center" fluid>
-        <Cars />
-        <Card className="w-25">
-            <Form>
-                <Card.Body>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Login</Form.Label>
-                        <Form.Control type="text" />
-                    </Form.Group>
+export const SignIn = () => {
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+    const formik = useFormik({
+        initialValues: {
+            login: '',
+            password: '',
+        },
+        validationSchema: Yup.object({
+            login: Validators.loginValidator,
+            password: Validators.passwordValidator,
+        }),
+        onSubmit: async ({ login, password }) => {
+            const response = await signIn({ login, password });
+            if (response.status) {
+                navigate(ROUTES.GAME);
+            } else {
+                setError(response.message);
+            }
+        },
+    });
+    return (
+        <Container
+            className="d-flex flex-column mt-auto mb-auto justify-content-center align-items-center"
+            fluid
+        >
+            <Cars />
+            {error ? (
+                <Alert variant="danger" className="w-25">
+                    <Alert.Heading>Sign In Error!</Alert.Heading>
+                    <p>{error}</p>
+                </Alert>
+            ) : null}
+            <Card className="w-25">
+                <Form onSubmit={formik.handleSubmit}>
+                    <Card.Body>
+                        <Input
+                            label="Login"
+                            name="login"
+                            type="text"
+                            status="normal"
+                            value={formik.values.login}
+                            onChange={formik.handleChange}
+                            isValid={
+                                !!(!formik.errors.login && formik.touched.login)
+                            }
+                            isInvalid={
+                                !!(formik.errors.login && formik.touched.login)
+                            }
+                        />
 
-                    <Form.Group className="mb-3">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" />
-                    </Form.Group>
-                </Card.Body>
-                <Card.Footer className="text-center">
-                    <Button
-                        className="w-100 mb-1"
-                        variant="success"
-                        type="submit"
-                    >
-                        Sign In
-                    </Button>
-                    <Link to="/signup">Don&apos;t have an account?</Link>
-                </Card.Footer>
-            </Form>
-        </Card>
-    </Container>
-);
+                        <Input
+                            label="Password"
+                            name="password"
+                            type="password"
+                            status="normal"
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
+                            isValid={
+                                !!(
+                                    !formik.errors.password
+                                    && formik.touched.password
+                                )
+                            }
+                            isInvalid={
+                                !!(
+                                    formik.errors.password
+                                    && formik.touched.password
+                                )
+                            }
+                        />
+                    </Card.Body>
+                    <Card.Footer className="text-center">
+                        <Button
+                            className="w-100 mb-1"
+                            variant="success"
+                            type="submit"
+                        >
+                            Sign In
+                        </Button>
+                        <Link to={ROUTES.SIGN_UP}>
+                            Don&apos;t have an account?
+                        </Link>
+                    </Card.Footer>
+                </Form>
+            </Card>
+        </Container>
+    );
+};
