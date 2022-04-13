@@ -37,7 +37,7 @@ const App = () => (
             </Container>
         </Navbar>
 
-        <div className="d-flex flex-column h-100 p-3">
+        <div className="d-flex flex-column page-fixed-height">
             <Routes>
                 <Route path={ROUTES.ROOT} element={<Root />} />
                 <Route
