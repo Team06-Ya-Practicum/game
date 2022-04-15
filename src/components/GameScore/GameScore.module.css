@@ -1,0 +1,10 @@
+.gameScore {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    color: white;
+    font-size: 32px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 8px;
+    border-radius: 15px;
+}
