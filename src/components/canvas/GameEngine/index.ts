@@ -8,8 +8,8 @@ import CrystalController from 'components/canvas/CrystalController';
 import { store } from 'store/store';
 import { EGameState, IGameState, setGameState } from 'store/slices/gameSlice';
 import CollisionController from 'components/canvas/CollisionController';
-import Crystal from "components/canvas/Crystal";
-import Vehicle from "components/canvas/Vehicle";
+import Crystal from 'components/canvas/Crystal';
+import Vehicle from 'components/canvas/Vehicle';
 
 class GameEngine {
     private readonly canvasInner: HTMLCanvasElement;
@@ -118,9 +118,7 @@ class GameEngine {
         ];
     }
 
-    getHero = (): Hero | null => {
-        return this.getChild(2) as Hero | null;
-    }
+    getHero = (): Hero | null => this.getChild(2) as Hero | null
 
     getCrystals = (): Crystal[] | null => {
         const controller = this.getChild(0) as CrystalController | null;

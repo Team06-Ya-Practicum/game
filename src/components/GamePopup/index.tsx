@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStateType } from 'store/store';
-import {EGameState, resetGameState, setGameState} from 'store/slices/gameSlice';
+import { EGameState, resetGameState, setGameState } from 'store/slices/gameSlice';
 import { Button, Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
+import { ROUTES } from 'index';
 import styles from './GamePopup.module.css';
-import {useNavigate} from "react-router";
-import {ROUTES} from "index";
 
 const GamePopup = () => {
     const gameState = useSelector((state: RootStateType): EGameState => state.game.gameState);

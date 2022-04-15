@@ -9,10 +9,8 @@ const CANVAS_ID = 'game-scene';
 
 export const Game = () => {
     useEffect(() => {
-        console.log('mount');
         const game = new GameEngine(`#${CANVAS_ID}`);
         return () => {
-            console.log('unmount');
             game.destroy();
         };
     }, []);
