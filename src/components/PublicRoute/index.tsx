@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Navigate } from 'react-router';
+import { useAppSelector, useAppDispatch } from 'store/hooks';
 import { getUserInfo } from '../../controllers/user';
 import { ROUTES } from '../../index';
 
@@ -8,16 +9,15 @@ interface IPublicRouteProps {
 }
 
 export const PublicRoute = ({ component }: IPublicRouteProps) => {
-    const [isAuthorized, setIsAuthorized] = useState(false);
+    const dispatch = useAppDispatch();
+    const isAuthorized = useAppSelector(state => state.user.isAuthorized);
     useEffect(() => {
-        getUserInfo().then(response => {
-            if (response.status) {
-                setIsAuthorized(true);
-            }
-        });
-    }, []);
+        if (isAuthorized === null) {
+            dispatch(getUserInfo());
+        }
+    }, [dispatch, isAuthorized]);
 
-    if (isAuthorized) {
+    if (isAuthorized === true) {
         return <Navigate to={ROUTES.GAME} />;
     }
 

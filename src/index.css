@@ -40,3 +40,13 @@ body {
 .page-fixed-height {
     height: calc(100% - 55px);
 }
+
+.modal-content {
+    background-color: #2d3c4f;
+    border: solid 2px #a9c0d0;
+    border-radius: 30px;
+}
+
+.modal-title {
+    color: #fff;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import { Provider } from 'react-redux';
 import { Route, Routes } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { Navbar, Container } from 'react-bootstrap';
@@ -14,6 +15,8 @@ import { SignUp } from 'pages/SignUp';
 import { Leaderboard } from 'pages/Leaderboard';
 import { Profile } from 'pages/Profile';
 import { Forum } from 'pages/Forum';
+import { ChangePassword } from 'pages/ChangePassword';
+import { store } from 'store/store';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import { Provider } from 'react-redux';
@@ -27,6 +30,7 @@ export const ROUTES = {
     LEADERBOARD: '/leaderboard',
     PROFILE: '/profile',
     FORUM: '/forum',
+    CHANGE_PASSWORD: '/password',
 };
 
 axios.defaults.baseURL = 'https://ya-praktikum.tech/api/v2';
@@ -61,6 +65,10 @@ const App = () => (
                 <Route
                     path={ROUTES.PROFILE}
                     element={<PrivateRoute component={<Profile />} />}
+                />
+                <Route
+                    path={ROUTES.CHANGE_PASSWORD}
+                    element={<PrivateRoute component={<ChangePassword />} />}
                 />
                 <Route
                     path={ROUTES.FORUM}

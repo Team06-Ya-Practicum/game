@@ -69,6 +69,7 @@ export const Cars = () => (
             <Image
                 key={index}
                 style={{
+                    zIndex: -9999,
                     position: 'absolute',
                     top: car.top,
                     right: car.right,
