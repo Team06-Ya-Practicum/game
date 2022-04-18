@@ -1,0 +1,29 @@
+.gamePopupWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    height: calc(100vh - 55px);
+}
+
+.gamePopupCard {
+    padding: 64px;
+    align-items: center;
+}
+
+.helperText {
+    font-size: 24px;
+    color: white;
+}
+
+.btn {
+    margin-top: 24px;
+    width: 100%;
+}
+
+.btnText {
+    padding: 0 24px;
+}

@@ -16,6 +16,8 @@ import { Profile } from 'pages/Profile';
 import { Forum } from 'pages/Forum';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+import { Provider } from 'react-redux';
+import { store } from 'store/store';
 
 export const ROUTES = {
     SIGN_IN: '/signin',
@@ -71,8 +73,10 @@ const App = () => (
 );
 
 ReactDOM.render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>,
+    <Provider store={store}>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </Provider>,
     document.getElementById('root'),
 );

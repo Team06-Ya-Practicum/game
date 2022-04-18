@@ -143,6 +143,11 @@ class VehicleController extends DisplayObject<IVehicleControllerProps> {
             dHeight: 80,
         };
     }
+
+    getVehicles = (): Vehicle[] => this.roadLanes.reduce(
+        (acc, item) => acc.concat(item.children),
+        [] as Vehicle[],
+    )
 }
 
 export default VehicleController;

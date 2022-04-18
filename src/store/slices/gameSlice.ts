@@ -23,10 +23,25 @@ export const gameSlice = createSlice({
         setGameState: (state: IGameState, action: PayloadAction<EGameState>): void => {
             state.gameState = action.payload;
         },
+        setGameScore: (state: IGameState, action: PayloadAction<number>): void => {
+            state.score = action.payload;
+        },
+        incrementScore: (state: IGameState, action: PayloadAction<number>): void => {
+            state.score += action.payload;
+        },
+        resetGameState: (state: IGameState): void => {
+            state.gameState = initialState.gameState;
+            state.score = initialState.score;
+        },
     },
 });
 
-export const { setGameState } = gameSlice.actions;
+export const {
+    setGameState,
+    setGameScore,
+    incrementScore,
+    resetGameState,
+} = gameSlice.actions;
 const gameStateReducer = gameSlice.reducer;
 
 export default gameStateReducer;

@@ -5,6 +5,11 @@ import VehicleController from 'components/canvas/VehicleController';
 import HeroSprite from 'assets/sprites/hero_sprite.png';
 import Hero from 'components/canvas/Hero';
 import CrystalController from 'components/canvas/CrystalController';
+import { store } from 'store/store';
+import { EGameState, IGameState, setGameState } from 'store/slices/gameSlice';
+import CollisionController from 'components/canvas/CollisionController';
+import Crystal from 'components/canvas/Crystal';
+import Vehicle from 'components/canvas/Vehicle';
 
 class GameEngine {
     private readonly canvasInner: HTMLCanvasElement;
@@ -13,11 +18,15 @@ class GameEngine {
 
     private bgInner: DisplayObject<IProps> | undefined;
 
-    private children: Array<DisplayObject<IProps>>;
+    private children: Array<DisplayObject<IProps>> = [];
 
-    private animRequestId: number;
+    private animRequestId = 0;
 
     private time: Date = new Date();
+
+    private gameStore: IGameState;
+
+    private collisionDetector: CollisionController;
 
     constructor(canvasSelector: string) {
         const canvas = document.querySelector(canvasSelector) as HTMLCanvasElement;
@@ -28,6 +37,59 @@ class GameEngine {
         this.ctxInner = canvas.getContext('2d') as CanvasRenderingContext2D; // safe assert
         this.recalcCanvasSize();
 
+        window.addEventListener('resize', this.recalcCanvasSize);
+
+        this.gameStore = store.getState().game;
+        store.subscribe(this.updateGameStoreFromStore);
+
+        this.collisionDetector = new CollisionController();
+
+        this.animRequestId = window.requestAnimationFrame(this.gameLoop);
+    }
+
+    /**
+     * Clean up everything here
+     */
+    destroy = (): void => {
+        if (this.animRequestId) {
+            window.cancelAnimationFrame(this.animRequestId);
+        }
+        this.destroyChildren();
+        window.removeEventListener('resize', this.recalcCanvasSize);
+    }
+
+    private destroyChildren = (): void => {
+        this.children.forEach(child => {
+            if (child instanceof Hero) {
+                child.destroy();
+            }
+        });
+    }
+
+    updateGameStoreFromStore = (): void => {
+        const newState = store.getState();
+        const shoudStartGame = this.gameStore.gameState === EGameState.INIT
+            && newState.game.gameState === EGameState.PLAYING;
+        this.gameStore = newState.game;
+        if (shoudStartGame) {
+            this.startGame();
+        }
+    }
+
+    startGame = (): void => {
+        this.destroyChildren();
+        this.initChildren();
+        this.animRequestId = window.requestAnimationFrame(this.gameLoop);
+    }
+
+    stopGame = (): void => {
+        if (this.animRequestId) {
+            window.cancelAnimationFrame(this.animRequestId);
+        }
+        store.dispatch(setGameState(EGameState.ENDED));
+    }
+
+    initChildren = (): void => {
         this.children = [
             new CrystalController({
                 width: this.canvas.width,
@@ -54,25 +116,51 @@ class GameEngine {
                 heightView: this.canvas.height,
             }),
         ];
-        this.gameLoop();
-        this.animRequestId = window.requestAnimationFrame(this.gameLoop); // start game
-
-        window.addEventListener('resize', this.recalcCanvasSize);
     }
 
-    /**
-     * Clean up everything here
-     */
-    destroy = (): void => {
-        if (this.animRequestId) {
-            window.cancelAnimationFrame(this.animRequestId);
+    getHero = (): Hero | null => this.getChild(2) as Hero | null
+
+    getCrystals = (): Crystal[] | null => {
+        const controller = this.getChild(0) as CrystalController | null;
+        if (!controller) {
+            return null;
         }
-        this.children.forEach(child => {
-            if (child instanceof Hero) {
-                child.destroy();
+        return controller.getCrystals();
+    }
+
+    getVehicles = (): Vehicle[] | null => {
+        const controller = this.getChild(1) as VehicleController | null;
+        if (!controller) {
+            return null;
+        }
+        return controller.getVehicles();
+    }
+
+    getChild = (index: number): DisplayObject<IProps> | null => {
+        if (!this.children || this.children.length !== 3 || index > 2) {
+            return null;
+        }
+        return this.children[index] || null;
+    }
+
+    detectCollisions = (): void => {
+        const hero = this.getHero();
+        const crystals = this.getCrystals();
+        const vehicles = this.getVehicles();
+
+        if (hero && crystals) {
+            const crystalCollided = this.collisionDetector.detectCollisions(hero, crystals);
+            if (crystalCollided >= 0) {
+                const crystalController = this.getChild(0) as CrystalController; // safe assert
+                crystalController.collectCrystal(crystalCollided);
             }
-        });
-        window.removeEventListener('resize', this.recalcCanvasSize);
+        }
+        if (hero && vehicles) {
+            const vehicleCollided = this.collisionDetector.detectCollisions(hero, vehicles);
+            if (vehicleCollided >= 0) {
+                this.stopGame();
+            }
+        }
     }
 
     /**
@@ -81,12 +169,16 @@ class GameEngine {
     private gameLoop = () => {
         const now = new Date();
         const deltaTime: number = (Number(now) - Number(this.time)) / 1000;
+        this.detectCollisions();
         this.clearFrame();
         this.bg.render(this.ctx, deltaTime);
         this.children.forEach(child => {
             child.render(this.ctx, deltaTime);
         });
         setTimeout(() => {
+            if (this.gameStore.gameState !== EGameState.PLAYING) {
+                return;
+            }
             this.time = now;
             this.animRequestId = window.requestAnimationFrame(this.gameLoop);
         }, GAME_LOOP_RENDER_RATE);

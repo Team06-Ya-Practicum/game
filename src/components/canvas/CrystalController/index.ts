@@ -1,7 +1,9 @@
 import DisplayObject, { IProps } from 'components/canvas/DisplayObject';
 import Crystal from 'components/canvas/Crystal';
-import { GAME_CRYSTAL_ROTATION_STEP, GAME_MAX_CRYSTALS } from 'utils/constants';
+import { GAME_CRYSTAL_ROTATION_STEP, GAME_CRYSTAL_SCORE, GAME_MAX_CRYSTALS } from 'utils/constants';
 import { randomNum } from 'utils/common';
+import { store } from 'store/store';
+import { incrementScore } from 'store/slices/gameSlice';
 import CrystalSprite from '../../../assets/sprites/crystal_sprite.png';
 
 export interface ICrystalController extends IProps {
@@ -48,6 +50,13 @@ class CrystalController extends DisplayObject<ICrystalController> {
             rotationStep: GAME_CRYSTAL_ROTATION_STEP,
             isShrinking: true,
         }));
+    }
+
+    getCrystals = (): Crystal[] => this.crystals
+
+    collectCrystal = (index: number): void => {
+        this.crystals = this.crystals.filter((item, i) => index !== i);
+        store.dispatch(incrementScore(GAME_CRYSTAL_SCORE));
     }
 }
 
