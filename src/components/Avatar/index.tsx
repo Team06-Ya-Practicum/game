@@ -1,21 +1,30 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useAppDispatch } from 'store/hooks';
 import { changeUserAvatar } from 'controllers/user';
 import {
     Image, Modal, Form, Button,
 } from 'react-bootstrap';
+import cn from 'classnames';
+import css from './Avatar.module.css';
 
 interface IAvatarProps {
     src: string;
+    size: string;
 }
 
-export const Avatar = ({ src }: IAvatarProps) => {
+export const Avatar = ({ src, size }: IAvatarProps) => {
     const dispatch = useAppDispatch();
     const [modalShow, setModalShow] = useState(false);
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState<File | null>(null);
 
-    const onFileChange = (event: any) => {
-        setFile(event.target.files[0]);
+    const onFileChange = (event: ChangeEvent) => {
+        const target = event.target as HTMLInputElement;
+        if (target.files) {
+            const newFile = target.files[0];
+            if (newFile) {
+                setFile(newFile);
+            }
+        }
     };
 
     const onFileUpload = () => {
@@ -61,11 +70,10 @@ export const Avatar = ({ src }: IAvatarProps) => {
             </Modal>
             <Image
                 style={{
-                    cursor: 'pointer',
-                    background: '#c4c4c4',
-                    width: '100px',
-                    height: '100px',
+                    width: size,
+                    height: size,
                 }}
+                className={cn(css.avatar)}
                 fluid={true}
                 onClick={() => setModalShow(true)}
                 src={

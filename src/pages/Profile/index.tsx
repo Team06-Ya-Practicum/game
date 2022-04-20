@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Form, Button, Container, Card, Alert, Spinner,
+    Form, Container, Card, Alert, Spinner,
 } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -9,6 +9,7 @@ import { changeUserProfile } from 'controllers/user';
 import { signOut } from 'controllers/authorization';
 import { useAppSelector, useAppDispatch } from 'store/hooks';
 import { Avatar } from 'components/Avatar';
+import { Button } from 'components/Button';
 import * as Validators from '../../validators';
 import { ROUTES } from '../../index';
 import { Cars } from '../../components/Cars';
@@ -72,7 +73,7 @@ export const Profile = () => {
                 <Form onSubmit={formik.handleSubmit}>
                     <Card.Body>
                         <div className="w-100 text-center">
-                            <Avatar src={avatar} />
+                            <Avatar src={avatar} size="100px" />
                         </div>
 
                         <Input
@@ -176,13 +177,10 @@ export const Profile = () => {
                         <Button
                             className="w-100 mb-2"
                             variant="success"
+                            isLoading={isLoading}
                             type="submit"
                         >
-                            {isLoading ? (
-                                <Spinner animation="border" size="sm" />
-                            ) : (
-                                'Save'
-                            )}
+                            Save
                         </Button>
                         <Link
                             className="btn btn-warning w-100 mb-2"
@@ -196,17 +194,14 @@ export const Profile = () => {
                         </Link>
                         <Button
                             className="w-100 mb-1"
+                            isLoading={isLoading}
                             variant="danger"
                             type="button"
                             onClick={async () => {
                                 dispatch(signOut());
                             }}
                         >
-                            {isLoading ? (
-                                <Spinner animation="border" size="sm" />
-                            ) : (
-                                'Sign Out'
-                            )}
+                            Sign Out
                         </Button>
                         <Link to={ROUTES.GAME}>Back to game</Link>
                     </Card.Footer>
