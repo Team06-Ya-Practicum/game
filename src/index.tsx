@@ -19,8 +19,6 @@ import { ChangePassword } from 'pages/ChangePassword';
 import { store } from 'store/store';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import { Provider } from 'react-redux';
-import { store } from 'store/store';
 
 export const ROUTES = {
     SIGN_IN: '/signin',
