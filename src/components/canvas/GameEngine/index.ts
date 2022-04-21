@@ -10,6 +10,7 @@ import { EGameState, IGameState, setGameState } from 'store/slices/gameSlice';
 import CollisionController from 'components/canvas/CollisionController';
 import Crystal from 'components/canvas/Crystal';
 import Vehicle from 'components/canvas/Vehicle';
+import {fetchAddLeaderboard} from "controllers/leaderboard";
 
 class GameEngine {
     private readonly canvasInner: HTMLCanvasElement;
@@ -86,7 +87,15 @@ class GameEngine {
         if (this.animRequestId) {
             window.cancelAnimationFrame(this.animRequestId);
         }
-        store.dispatch(setGameState(EGameState.ENDED));
+        if (this.gameStore.score < 1) {
+            return;
+        }
+        fetchAddLeaderboard({
+            score: this.gameStore.score,
+            name: 'Player1',
+        }).finally(() => {
+            store.dispatch(setGameState(EGameState.ENDED));
+        });
     }
 
     initChildren = (): void => {
