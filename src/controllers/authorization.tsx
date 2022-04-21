@@ -1,3 +1,4 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 interface ISignInArguments {
@@ -56,3 +57,14 @@ export const signUp = async ({
         return { status: false, message: e.response.data.reason };
     }
 };
+
+export const signOut = createAsyncThunk('user/signOut', async () => {
+    const response = await axios.post(
+        '/auth/logout',
+        {},
+        {
+            withCredentials: true,
+        },
+    );
+    return response.data;
+});

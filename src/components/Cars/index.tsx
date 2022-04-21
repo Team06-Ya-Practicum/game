@@ -1,10 +1,12 @@
 import React from 'react';
 import { Image } from 'react-bootstrap';
+import cn from 'classnames';
 import car1 from '../../img/car1.svg';
 import car2 from '../../img/car2.svg';
 import car3 from '../../img/car3.svg';
 import bus1 from '../../img/bus1.svg';
 import truck1 from '../../img/truck1.svg';
+import css from './Cars.module.css';
 
 const cars = [
     {
@@ -69,12 +71,12 @@ export const Cars = () => (
             <Image
                 key={index}
                 style={{
-                    position: 'absolute',
                     top: car.top,
                     right: car.right,
                     bottom: car.bottom,
                     left: car.left,
                 }}
+                className={cn(css.car)}
                 src={car.img}
                 width={car.width}
                 height={car.height}
