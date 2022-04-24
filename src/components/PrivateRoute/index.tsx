@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Navigate } from 'react-router';
-import { getUserInfo } from '../../controllers/user';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { getUserInfo } from 'controllers/user';
 import { ROUTES } from '../../index';
 
 interface IPrivateRouteProps {
@@ -8,16 +9,15 @@ interface IPrivateRouteProps {
 }
 
 export const PrivateRoute = ({ component }: IPrivateRouteProps) => {
-    const [isAuthorized, setIsAuthorized] = useState(true);
+    const isAuthorized = useAppSelector(state => state.user.isAuthorized);
+    const dispatch = useAppDispatch();
     useEffect(() => {
-        getUserInfo().then(response => {
-            if (!response.status) {
-                setIsAuthorized(false);
-            }
-        });
-    }, []);
+        if (isAuthorized === null) {
+            dispatch(getUserInfo());
+        }
+    }, [dispatch, isAuthorized]);
 
-    if (!isAuthorized) {
+    if (isAuthorized === false) {
         return <Navigate to={ROUTES.SIGN_IN} />;
     }
 
