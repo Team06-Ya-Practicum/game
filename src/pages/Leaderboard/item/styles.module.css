@@ -1,0 +1,8 @@
+.item {
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.item p {
+  margin: 0;
+}

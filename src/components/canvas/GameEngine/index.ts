@@ -10,7 +10,7 @@ import { EGameState, IGameState, setGameState } from 'store/slices/gameSlice';
 import CollisionController from 'components/canvas/CollisionController';
 import Crystal from 'components/canvas/Crystal';
 import Vehicle from 'components/canvas/Vehicle';
-import {fetchAddLeaderboard} from "controllers/leaderboard";
+import { fetchAddLeaderboard } from 'controllers/leaderboard';
 
 class GameEngine {
     private readonly canvasInner: HTMLCanvasElement;
@@ -28,6 +28,8 @@ class GameEngine {
     private gameStore: IGameState;
 
     private collisionDetector: CollisionController;
+
+    private isSavingScore = false;
 
     constructor(canvasSelector: string) {
         const canvas = document.querySelector(canvasSelector) as HTMLCanvasElement;
@@ -69,10 +71,10 @@ class GameEngine {
 
     updateGameStoreFromStore = (): void => {
         const newState = store.getState();
-        const shoudStartGame = this.gameStore.gameState === EGameState.INIT
+        const shouldStartGame = this.gameStore.gameState === EGameState.INIT
             && newState.game.gameState === EGameState.PLAYING;
         this.gameStore = newState.game;
-        if (shoudStartGame) {
+        if (shouldStartGame) {
             this.startGame();
         }
     }
@@ -87,13 +89,16 @@ class GameEngine {
         if (this.animRequestId) {
             window.cancelAnimationFrame(this.animRequestId);
         }
-        if (this.gameStore.score < 1) {
+        if (this.gameStore.score < 1 || this.isSavingScore) {
             return;
         }
+        const { user } = store.getState();
+        this.isSavingScore = true;
         fetchAddLeaderboard({
             score: this.gameStore.score,
-            name: 'Player1',
+            name: user.data.login,
         }).finally(() => {
+            this.isSavingScore = false;
             store.dispatch(setGameState(EGameState.ENDED));
         });
     }
@@ -185,7 +190,7 @@ class GameEngine {
             child.render(this.ctx, deltaTime);
         });
         setTimeout(() => {
-            if (this.gameStore.gameState !== EGameState.PLAYING) {
+            if (this.gameStore.gameState !== EGameState.PLAYING || this.isSavingScore) {
                 return;
             }
             this.time = now;

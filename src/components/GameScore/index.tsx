@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { RootStateType } from 'store/store';
+import { selectScore } from 'store/slices/gameSlice';
 import styles from './GameScore.module.css';
 
 const GameScore = () => {
-    const score = useSelector((state: RootStateType) => state.game.score);
+    const score = useSelector(selectScore);
 
     return (
         <div className={styles.gameScore}>

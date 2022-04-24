@@ -1,11 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { BASE_API_URL, GAME_LEADERBOARDS_SCORE_FLD, GAME_LEADERBOARDS_TEAM_NAME } from 'utils/constants';
-
-export interface ILeaderboardItem {
-    name: string
-    score: number
-}
+import { ILeaderboardItem } from 'store/slices/leaderboardSlice';
 
 export interface IAddLeaderboardRaw {
     data: ILeaderboardItem
