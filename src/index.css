@@ -32,7 +32,8 @@ body {
     border-color: #95e049;
 }
 
-.btn-success:hover {
+.btn-success:hover,
+.btn-success:focus {
     background-color: #94e049d0;
     border-color: #94e049d0;
 }

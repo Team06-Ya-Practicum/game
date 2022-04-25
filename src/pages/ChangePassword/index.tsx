@@ -1,15 +1,16 @@
 import React from 'react';
 import {
-    Form, Button, Container, Card, Alert, Spinner,
+    Form, Button, Card, Alert, Spinner,
 } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import { changeUserPassword } from 'controllers/user';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { PageCentered } from 'components/PageCentered';
+import { EUserTypeError } from 'store/slices/userSlice';
 import * as Validators from '../../validators';
 import { ROUTES } from '../../index';
-import { Cars } from '../../components/Cars';
 import { Input } from '../../components/Input';
 
 export const ChangePassword = () => {
@@ -33,18 +34,14 @@ export const ChangePassword = () => {
         },
     });
     return (
-        <Container
-            className="d-flex flex-column mt-auto mb-auto justify-content-center align-items-center"
-            fluid
-        >
-            <Cars />
-            {error ? (
+        <PageCentered withCars>
+            {error && error.type === EUserTypeError.CHANGE_USER_PASSWORD ? (
                 <Alert variant="danger" className="w-25">
-                    <Alert.Heading>Sign In Error!</Alert.Heading>
-                    <p>{error}</p>
+                    <Alert.Heading>Change Password Error!</Alert.Heading>
+                    <p>{error.message}</p>
                 </Alert>
             ) : null}
-            <Card className="w-25">
+            <Card>
                 <Form onSubmit={formik.handleSubmit}>
                     <Card.Body>
                         <Input
@@ -130,6 +127,6 @@ export const ChangePassword = () => {
                     </Card.Footer>
                 </Form>
             </Card>
-        </Container>
+        </PageCentered>
     );
 };

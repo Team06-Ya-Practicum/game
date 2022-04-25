@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import {
-    Form, Button, Container, Card, Alert,
-} from 'react-bootstrap';
+import React from 'react';
+import { Form, Card, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { Button } from 'components/Button';
+import { PageCentered } from 'components/PageCentered';
+import { EUserTypeError } from 'store/slices/userSlice';
 import * as Validators from '../../validators';
-import { Cars } from '../../components/Cars';
 import { Input } from '../../components/Input';
 import { signUp } from '../../controllers/authorization';
 import { ROUTES } from '../../index';
 
 export const SignUp = () => {
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const { error, isLoading } = useAppSelector(state => state.user);
     const formik = useFormik({
         initialValues: {
             login: '',
@@ -35,7 +35,7 @@ export const SignUp = () => {
                 Validators.passwordConfirmationValidator('password'),
             phone: Validators.phoneValidator,
         }),
-        onSubmit: async ({
+        onSubmit: ({
             login,
             email,
             firstName,
@@ -43,34 +43,27 @@ export const SignUp = () => {
             password,
             phone,
         }) => {
-            const response = await signUp({
-                login,
-                email,
-                firstName,
-                secondName,
-                password,
-                phone,
-            });
-            if (response.status) {
-                navigate(ROUTES.GAME);
-            } else {
-                setError(response.message);
-            }
+            dispatch(
+                signUp({
+                    login,
+                    email,
+                    firstName,
+                    secondName,
+                    password,
+                    phone,
+                }),
+            );
         },
     });
     return (
-        <Container
-            className="d-flex flex-column mt-auto mb-auto justify-content-center align-items-center"
-            fluid
-        >
-            <Cars />
-            {error ? (
-                <Alert variant="danger" className="w-25">
+        <PageCentered withCars>
+            {error && error.type === EUserTypeError.SIGN_UP ? (
+                <Alert variant="danger">
                     <Alert.Heading>Sign Up Error!</Alert.Heading>
-                    <p>{error}</p>
+                    <p>{error.message}</p>
                 </Alert>
             ) : null}
-            <Card className="w-25">
+            <Card>
                 <Form onSubmit={formik.handleSubmit}>
                     <Card.Body>
                         <Input
@@ -221,6 +214,7 @@ export const SignUp = () => {
                             className="w-100"
                             variant="success"
                             type="submit"
+                            isLoading={isLoading}
                         >
                             Sign Up
                         </Button>
@@ -228,6 +222,6 @@ export const SignUp = () => {
                     </Card.Footer>
                 </Form>
             </Card>
-        </Container>
+        </PageCentered>
     );
 };
