@@ -6,7 +6,7 @@ import styles from './styles.module.css';
 export interface ILeaderboardItemProps {
     name: string
     score: number
-};
+}
 
 const LeaderboardItem = ({ name, score }: ILeaderboardItemProps) => (
     <Card className={cx('d-flex', 'flex-row', 'justify-content-between', 'align-items-center', styles.item)}>

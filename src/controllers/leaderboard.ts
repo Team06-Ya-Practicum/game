@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios, {AxiosResponse} from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { BASE_API_URL, GAME_LEADERBOARDS_SCORE_FLD, GAME_LEADERBOARDS_TEAM_NAME } from 'utils/constants';
 import { ILeaderboardItem } from 'store/slices/leaderboardSlice';
 
