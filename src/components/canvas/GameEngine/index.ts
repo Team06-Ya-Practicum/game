@@ -29,7 +29,7 @@ class GameEngine {
 
     private collisionDetector: CollisionController;
 
-    private isSavingScore = false;
+    private isStoped = false;
 
     constructor(canvasSelector: string) {
         const canvas = document.querySelector(canvasSelector) as HTMLCanvasElement;
@@ -89,17 +89,20 @@ class GameEngine {
         if (this.animRequestId) {
             window.cancelAnimationFrame(this.animRequestId);
         }
-        if (this.gameStore.score < 1 || this.isSavingScore) {
+        if (this.isStoped) {
             return;
         }
+        this.isStoped = true;
+        if (this.gameStore.score < 1) {
+            store.dispatch(setGameState(EGameState.ENDED));
+            return; // nothing to save here, not a record
+        }
         const { user } = store.getState();
-        this.isSavingScore = true;
         fetchAddLeaderboard({
             scoreTeam06Ya: this.gameStore.score,
             name: user.data.login,
             teamName: GAME_LEADERBOARDS_TEAM_NAME,
         }).finally(() => {
-            this.isSavingScore = false;
             store.dispatch(setGameState(EGameState.ENDED));
         });
     }
@@ -164,14 +167,14 @@ class GameEngine {
         const vehicles = this.getVehicles();
 
         if (hero && crystals) {
-            const crystalCollided = this.collisionDetector.detectCollisions(hero, crystals);
+            const crystalCollided = this.collisionDetector.detectCollisions(hero, crystals, false);
             if (crystalCollided >= 0) {
                 const crystalController = this.getChild(0) as CrystalController; // safe assert
                 crystalController.collectCrystal(crystalCollided);
             }
         }
         if (hero && vehicles) {
-            const vehicleCollided = this.collisionDetector.detectCollisions(hero, vehicles);
+            const vehicleCollided = this.collisionDetector.detectCollisions(hero, vehicles, true);
             if (vehicleCollided >= 0) {
                 this.stopGame();
             }
@@ -191,7 +194,7 @@ class GameEngine {
             child.render(this.ctx, deltaTime);
         });
         setTimeout(() => {
-            if (this.gameStore.gameState !== EGameState.PLAYING || this.isSavingScore) {
+            if (this.gameStore.gameState !== EGameState.PLAYING || this.isStoped) {
                 return;
             }
             this.time = now;

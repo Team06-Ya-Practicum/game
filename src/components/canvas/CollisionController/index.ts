@@ -1,9 +1,13 @@
 import Hero from 'components/canvas/Hero';
 import Sprite, { ISpriteProps } from 'components/canvas/Sprite';
-import { GAME_COLLISION_SAFE_OFFSET } from 'utils/constants';
+import { GAME_COLLISION_SAFE_OFFSET, GAME_COLLISION_SAFE_OFFSET_CAR } from 'utils/constants';
 
 class CollisionController {
-    detectCollisions = (hero: Hero, crystals: Array<Sprite<ISpriteProps>>): number => {
+    detectCollisions = (
+        hero: Hero,
+        crystals: Array<Sprite<ISpriteProps>>,
+        isCar: boolean,
+    ): number => {
         const {
             dx,
             dy,
@@ -11,20 +15,21 @@ class CollisionController {
             dHeight,
         } = hero.props;
         let collisionIndex = -1;
+        const offset = isCar ? GAME_COLLISION_SAFE_OFFSET_CAR : GAME_COLLISION_SAFE_OFFSET;
         crystals.forEach((item, i) => {
             const p = item.props;
             let hasCollisionX = false;
             let hasCollisionY = false;
-            if (p.dx < dx && p.dx + p.dWidth > dx + GAME_COLLISION_SAFE_OFFSET) {
+            if (p.dx < dx && p.dx + p.dWidth > dx + offset) {
                 hasCollisionX = true;
             }
-            if (p.dx > dx && p.dx < dx + dWidth - GAME_COLLISION_SAFE_OFFSET) {
+            if (p.dx > dx && p.dx < dx + dWidth - offset) {
                 hasCollisionX = true;
             }
-            if (p.dy < dy && p.dy + p.dHeight > dy + GAME_COLLISION_SAFE_OFFSET) {
+            if (p.dy < dy && p.dy + p.dHeight > dy + offset) {
                 hasCollisionY = true;
             }
-            if (p.dy > dy && p.dy < dy + dHeight - GAME_COLLISION_SAFE_OFFSET) {
+            if (p.dy > dy && p.dy < dy + dHeight - offset) {
                 hasCollisionY = true;
             }
             if (hasCollisionX && hasCollisionY) {
