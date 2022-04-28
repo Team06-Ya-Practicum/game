@@ -1,5 +1,5 @@
 import DisplayObject, { IProps } from 'components/canvas/DisplayObject';
-import { GAME_HERO_SPEED, GAME_LOOP_RENDER_RATE } from 'utils/constants';
+import { GAME_HERO_SPEED, GAME_LEADERBOARDS_TEAM_NAME, GAME_LOOP_RENDER_RATE } from 'utils/constants';
 import Background from 'components/canvas/Background';
 import VehicleController from 'components/canvas/VehicleController';
 import HeroSprite from 'assets/sprites/hero_sprite.png';
@@ -95,8 +95,9 @@ class GameEngine {
         const { user } = store.getState();
         this.isSavingScore = true;
         fetchAddLeaderboard({
-            score: this.gameStore.score,
+            scoreTeam06Ya: this.gameStore.score,
             name: user.data.login,
+            teamName: GAME_LEADERBOARDS_TEAM_NAME,
         }).finally(() => {
             this.isSavingScore = false;
             store.dispatch(setGameState(EGameState.ENDED));

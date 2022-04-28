@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react';
-import { Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import { fetchLeaderboard } from 'controllers/leaderboard';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLeaderboardItems } from 'store/slices/leaderboardSlice';
 import LeaderboardItem from 'pages/Leaderboard/item';
+import { useNavigate } from 'react-router';
+import { ROUTES } from 'index';
+import styles from './Leaderboard.module.css';
 
 export const Leaderboard = () => {
     const items = useSelector(selectLeaderboardItems);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(fetchLeaderboard());
@@ -19,15 +23,24 @@ export const Leaderboard = () => {
                 <Card.Header className='d-flex justify-content-center align-items-center text-white'>
                     L E A D E R B O A R D
                 </Card.Header>
-                <Card.Body>
+                <Card.Body className={styles.itemsContainer}>
                     {items.length === 0
                         && <LeaderboardItem
                             name='Empty leaderboard, be the first one'
                             score={0} />
                     }
                     {items.map(item => (
-                        <LeaderboardItem key={item.name} name={item.name} score={item.score} />
+                        <LeaderboardItem
+                            key={item.name}
+                            name={item.name}
+                            score={item.scoreTeam06Ya} />
                     ))}
+                    <Button
+                        className={styles.backToGameBtn}
+                        variant='success'
+                        onClick={() => navigate(ROUTES.GAME)}>
+                        BACK TO GAME
+                    </Button>
                 </Card.Body>
             </Card>
         </main>

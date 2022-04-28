@@ -4,7 +4,8 @@ import { RootStateType } from 'store/store';
 
 export interface ILeaderboardItem {
     name: string
-    score: number
+    scoreTeam06Ya: number
+    teamName: string
 }
 
 export interface ILeaderboardState {

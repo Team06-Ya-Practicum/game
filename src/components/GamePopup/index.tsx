@@ -23,8 +23,9 @@ const GamePopup = () => {
     }, [dispatch]);
 
     const handleNavToLeaderboards = useCallback(() => {
+        dispatch(resetGameState());
         navigate(ROUTES.LEADERBOARD);
-    }, [navigate]);
+    }, [navigate, dispatch]);
 
     const handleRestartGame = useCallback(() => {
         dispatch(resetGameState());

@@ -10,6 +10,6 @@ export const GAME_CRYSTAL_SCORE = 1;
 export const GAME_COLLISION_SAFE_OFFSET = 5;
 
 export const GAME_LEADERBOARDS_TEAM_NAME = 'team06yaPraktikum';
-export const GAME_LEADERBOARDS_SCORE_FLD = 'score';
+export const GAME_LEADERBOARDS_SCORE_FLD = 'scoreTeam06Ya';
 
 export const BASE_API_URL = 'https://ya-praktikum.tech/api/v2';
