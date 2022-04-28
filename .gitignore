@@ -106,3 +106,6 @@ dist
 .idea
 
 build
+
+# Mac OS trash
+.DS_Store

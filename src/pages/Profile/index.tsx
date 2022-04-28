@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Form, Container, Card, Alert, Spinner,
+    Form, Card, Alert, Spinner,
 } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -10,9 +10,10 @@ import { signOut } from 'controllers/authorization';
 import { useAppSelector, useAppDispatch } from 'store/hooks';
 import { Avatar } from 'components/Avatar';
 import { Button } from 'components/Button';
+import { PageCentered } from 'components/PageCentered';
+import { EUserTypeError } from 'store/slices/userSlice';
 import * as Validators from '../../validators';
 import { ROUTES } from '../../index';
-import { Cars } from '../../components/Cars';
 import { Input } from '../../components/Input';
 
 export const Profile = () => {
@@ -58,18 +59,14 @@ export const Profile = () => {
         },
     });
     return (
-        <Container
-            className="d-flex flex-column mt-auto mb-auto justify-content-center align-items-center"
-            fluid
-        >
-            <Cars />
-            {error ? (
-                <Alert variant="danger" className="w-25">
-                    <Alert.Heading>Sign In Error!</Alert.Heading>
-                    <p>{error}</p>
+        <PageCentered withCars>
+            {error && error.type === EUserTypeError.CHANGE_USER_PROFILE ? (
+                <Alert variant="danger">
+                    <Alert.Heading>Profile Error!</Alert.Heading>
+                    <p>{error.message}</p>
                 </Alert>
             ) : null}
-            <Card className="w-25">
+            <Card>
                 <Form onSubmit={formik.handleSubmit}>
                     <Card.Body>
                         <div className="w-100 text-center">
@@ -207,6 +204,6 @@ export const Profile = () => {
                     </Card.Footer>
                 </Form>
             </Card>
-        </Container>
+        </PageCentered>
     );
 };
