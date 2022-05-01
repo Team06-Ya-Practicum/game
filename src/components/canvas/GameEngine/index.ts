@@ -1,5 +1,5 @@
 import DisplayObject, { IProps } from 'components/canvas/DisplayObject';
-import { GAME_HERO_SPEED, GAME_LOOP_RENDER_RATE } from 'utils/constants';
+import { GAME_HERO_SPEED, GAME_LEADERBOARDS_TEAM_NAME, GAME_LOOP_RENDER_RATE } from 'utils/constants';
 import Background from 'components/canvas/Background';
 import VehicleController from 'components/canvas/VehicleController';
 import HeroSprite from 'assets/sprites/hero_sprite.png';
@@ -10,6 +10,7 @@ import { EGameState, IGameState, setGameState } from 'store/slices/gameSlice';
 import CollisionController from 'components/canvas/CollisionController';
 import Crystal from 'components/canvas/Crystal';
 import Vehicle from 'components/canvas/Vehicle';
+import { fetchAddLeaderboard } from 'controllers/leaderboard';
 
 class GameEngine {
     private readonly canvasInner: HTMLCanvasElement;
@@ -27,6 +28,8 @@ class GameEngine {
     private gameStore: IGameState;
 
     private collisionDetector: CollisionController;
+
+    private isStoped = false;
 
     constructor(canvasSelector: string) {
         const canvas = document.querySelector(canvasSelector) as HTMLCanvasElement;
@@ -68,10 +71,10 @@ class GameEngine {
 
     updateGameStoreFromStore = (): void => {
         const newState = store.getState();
-        const shoudStartGame = this.gameStore.gameState === EGameState.INIT
+        const shouldStartGame = this.gameStore.gameState === EGameState.INIT
             && newState.game.gameState === EGameState.PLAYING;
         this.gameStore = newState.game;
-        if (shoudStartGame) {
+        if (shouldStartGame) {
             this.startGame();
         }
     }
@@ -86,7 +89,22 @@ class GameEngine {
         if (this.animRequestId) {
             window.cancelAnimationFrame(this.animRequestId);
         }
-        store.dispatch(setGameState(EGameState.ENDED));
+        if (this.isStoped) {
+            return;
+        }
+        this.isStoped = true;
+        if (this.gameStore.score < 1) {
+            store.dispatch(setGameState(EGameState.ENDED));
+            return; // nothing to save here, not a record
+        }
+        const { user } = store.getState();
+        fetchAddLeaderboard({
+            scoreTeam06Ya: this.gameStore.score,
+            name: user.data.login,
+            teamName: GAME_LEADERBOARDS_TEAM_NAME,
+        }).finally(() => {
+            store.dispatch(setGameState(EGameState.ENDED));
+        });
     }
 
     initChildren = (): void => {
@@ -149,14 +167,14 @@ class GameEngine {
         const vehicles = this.getVehicles();
 
         if (hero && crystals) {
-            const crystalCollided = this.collisionDetector.detectCollisions(hero, crystals);
+            const crystalCollided = this.collisionDetector.detectCollisions(hero, crystals, false);
             if (crystalCollided >= 0) {
                 const crystalController = this.getChild(0) as CrystalController; // safe assert
                 crystalController.collectCrystal(crystalCollided);
             }
         }
         if (hero && vehicles) {
-            const vehicleCollided = this.collisionDetector.detectCollisions(hero, vehicles);
+            const vehicleCollided = this.collisionDetector.detectCollisions(hero, vehicles, true);
             if (vehicleCollided >= 0) {
                 this.stopGame();
             }
@@ -176,7 +194,7 @@ class GameEngine {
             child.render(this.ctx, deltaTime);
         });
         setTimeout(() => {
-            if (this.gameStore.gameState !== EGameState.PLAYING) {
+            if (this.gameStore.gameState !== EGameState.PLAYING || this.isStoped) {
                 return;
             }
             this.time = now;

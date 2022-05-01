@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootStateType } from 'store/store';
 
 export enum EGameState {
     INIT = '@game-state/init',
@@ -35,6 +36,10 @@ export const gameSlice = createSlice({
         },
     },
 });
+
+export const selectScore = (state: RootStateType) => state.game.score;
+
+export const selectState = (state: RootStateType): EGameState => state.game.gameState;
 
 export const {
     setGameState,
