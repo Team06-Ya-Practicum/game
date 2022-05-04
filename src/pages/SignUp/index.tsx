@@ -10,7 +10,7 @@ import { EUserTypeError } from 'store/slices/userSlice';
 import * as Validators from '../../validators';
 import { Input } from '../../components/Input';
 import { signUp } from '../../controllers/authorization';
-import { ROUTES } from '../../index';
+import { ROUTES } from '../../routes';
 
 export const SignUp = () => {
     const dispatch = useAppDispatch();

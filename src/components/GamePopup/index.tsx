@@ -9,7 +9,7 @@ import {
 } from 'store/slices/gameSlice';
 import { Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
-import { ROUTES } from 'index';
+import { ROUTES } from 'routes';
 import styles from './GamePopup.module.css';
 
 const GamePopup = () => {

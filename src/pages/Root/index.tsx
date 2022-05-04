@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import characterImage from '../../img/character_front.svg';
 import backgroundImage from '../../img/road_ready.svg';
 import css from './Root.module.css';
-import { ROUTES } from '../../index';
+import { ROUTES } from '../../routes';
 
 export const Root = () => (
     <Container

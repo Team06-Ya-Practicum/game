@@ -20,17 +20,7 @@ import { useAppSelector } from 'store/hooks';
 import { store } from 'store/store';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-
-export const ROUTES = {
-    SIGN_IN: '/signin',
-    SIGN_UP: '/signup',
-    ROOT: '/',
-    GAME: '/game',
-    LEADERBOARD: '/leaderboard',
-    PROFILE: '/profile',
-    FORUM: '/forum',
-    CHANGE_PASSWORD: '/password',
-};
+import { ROUTES } from 'routes';
 
 axios.defaults.baseURL = 'https://ya-praktikum.tech/api/v2';
 
