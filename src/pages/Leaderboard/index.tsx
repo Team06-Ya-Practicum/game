@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectLeaderboardItems } from 'store/slices/leaderboardSlice';
 import LeaderboardItem from 'pages/Leaderboard/item';
 import { useNavigate } from 'react-router';
-import { ROUTES } from 'index';
+import { ROUTES } from 'routes';
 import styles from './Leaderboard.module.css';
 
 export const Leaderboard = () => {

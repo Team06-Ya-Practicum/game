@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { PageCentered } from 'components/PageCentered';
 import { EUserTypeError } from 'store/slices/userSlice';
 import * as Validators from '../../validators';
-import { ROUTES } from '../../index';
+import { ROUTES } from '../../routes';
 import { Input } from '../../components/Input';
 
 export const ChangePassword = () => {

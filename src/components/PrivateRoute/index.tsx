@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Navigate } from 'react-router';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { getUserInfo } from 'controllers/user';
-import { ROUTES } from '../../index';
+import { ROUTES } from '../../routes';
 
 interface IPrivateRouteProps {
     component: JSX.Element;
