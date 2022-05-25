@@ -84,3 +84,25 @@ export const signOut = createAsyncThunk('user/signOut', async () => {
     );
     return response.data;
 });
+
+export const fetchOAuth = createAsyncThunk('user/oauth-service-id', async () => {
+    const redirectUri = window.location.origin;
+    const response = await axios.get(`/oauth/yandex/service-id?redirect_uri=${redirectUri}`, { withCredentials: true });
+    if (response.status !== 200) {
+        return;
+    }
+    const serviceId = response.data.service_id;
+    window.location.href = ` https://oauth.yandex.ru/authorize?response_type=code&client_id=${serviceId}&redirect_uri=${redirectUri}`;
+});
+
+export const fetchOAuthLogin = createAsyncThunk('user/oauth-login', async (code: string, thunkAPI) => {
+    const redirectUri = window.location.origin;
+    const response = await axios.post('/oauth/yandex', {
+        code,
+        redirect_uri: redirectUri,
+    }, { withCredentials: true });
+    if (response.status !== 200) {
+        return;
+    }
+    thunkAPI.dispatch(getUserInfo());
+});

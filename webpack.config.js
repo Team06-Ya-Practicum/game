@@ -11,7 +11,7 @@ module.exports = {
         static: {
             directory: path.resolve(__dirname, 'build'),
         },
-        port: 8080,
+        port: 5000,
         hot: true,
         historyApiFallback: true,
         proxy: {
