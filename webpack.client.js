@@ -3,9 +3,9 @@ const baseConfig = require('./webpack.base');
 
 const config = {
     target: 'web',
-    entry: './src/client.tsx',
+    entry: './src/index.tsx',
     output: {
-        filename: 'client.js',
+        filename: 'bundle.js',
     },
 };
 

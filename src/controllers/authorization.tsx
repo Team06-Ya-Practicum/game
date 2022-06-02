@@ -20,22 +20,22 @@ export const signIn = createAsyncThunk(
     'user/signIn',
     async (
         { login, password }: ISignInArguments,
-        { rejectWithValue, dispatch },
+        { rejectWithValue, dispatch }
     ) => {
         try {
             const response = await axios.post(
-                '/auth/signin',
+                '/api/auth/signin',
                 { login, password },
                 {
                     withCredentials: true,
-                },
+                }
             );
             dispatch(getUserInfo());
             return response.data;
         } catch (err: any) {
             return rejectWithValue(err.response.data);
         }
-    },
+    }
 );
 
 export const signUp = createAsyncThunk(
@@ -49,11 +49,11 @@ export const signUp = createAsyncThunk(
             secondName,
             phone,
         }: ISignUpArguments,
-        { rejectWithValue, dispatch },
+        { rejectWithValue, dispatch }
     ) => {
         try {
             const response = await axios.post(
-                '/auth/signup',
+                '/api/auth/signup',
                 {
                     login,
                     password,
@@ -64,45 +64,58 @@ export const signUp = createAsyncThunk(
                 },
                 {
                     withCredentials: true,
-                },
+                }
             );
             dispatch(getUserInfo());
             return response.data;
         } catch (err: any) {
             return rejectWithValue(err.response.data);
         }
-    },
+    }
 );
 
 export const signOut = createAsyncThunk('user/signOut', async () => {
     const response = await axios.post(
-        '/auth/logout',
+        '/api/auth/logout',
         {},
         {
             withCredentials: true,
-        },
+        }
     );
     return response.data;
 });
 
-export const fetchOAuth = createAsyncThunk('user/oauth-service-id', async () => {
-    const redirectUri = window.location.origin;
-    const response = await axios.get(`/oauth/yandex/service-id?redirect_uri=${redirectUri}`, { withCredentials: true });
-    if (response.status !== 200) {
-        return;
+export const fetchOAuth = createAsyncThunk(
+    'user/oauth-service-id',
+    async () => {
+        const redirectUri = window.location.origin;
+        const response = await axios.get(
+            `/api/oauth/yandex/service-id?redirect_uri=${redirectUri}`,
+            { withCredentials: true }
+        );
+        if (response.status !== 200) {
+            return;
+        }
+        const serviceId = response.data.service_id;
+        window.location.href = ` https://oauth.yandex.ru/authorize?response_type=code&client_id=${serviceId}&redirect_uri=${redirectUri}`;
     }
-    const serviceId = response.data.service_id;
-    window.location.href = ` https://oauth.yandex.ru/authorize?response_type=code&client_id=${serviceId}&redirect_uri=${redirectUri}`;
-});
+);
 
-export const fetchOAuthLogin = createAsyncThunk('user/oauth-login', async (code: string, thunkAPI) => {
-    const redirectUri = window.location.origin;
-    const response = await axios.post('/oauth/yandex', {
-        code,
-        redirect_uri: redirectUri,
-    }, { withCredentials: true });
-    if (response.status !== 200) {
-        return;
+export const fetchOAuthLogin = createAsyncThunk(
+    'user/oauth-login',
+    async (code: string, thunkAPI) => {
+        const redirectUri = window.location.origin;
+        const response = await axios.post(
+            '/api/oauth/yandex',
+            {
+                code,
+                redirect_uri: redirectUri,
+            },
+            { withCredentials: true }
+        );
+        if (response.status !== 200) {
+            return;
+        }
+        thunkAPI.dispatch(getUserInfo());
     }
-    thunkAPI.dispatch(getUserInfo());
-});
+);

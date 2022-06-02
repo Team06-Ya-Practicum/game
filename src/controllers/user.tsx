@@ -3,16 +3,18 @@ import axios from 'axios';
 
 export const getUserInfo = createAsyncThunk(
     'user/getUserInfo',
-    async (userData, { rejectWithValue }) => {
+    async (userData, { rejectWithValue, extra: api }) => {
         try {
-            const response = await axios.get('/auth/user', {
-                withCredentials: true,
-            });
+            if (api !== undefined) {
+                const response = await api.get('/auth/user');
+                return response.data;
+            }
+            const response = await axios.get('/api/auth/user');
             return response.data;
         } catch (err: any) {
             return rejectWithValue(err.response.data);
         }
-    },
+    }
 );
 
 interface IChangeUserProfileData {
@@ -26,14 +28,12 @@ interface IChangeUserProfileData {
 export const changeUserProfile = createAsyncThunk(
     'user/changeUserProfile',
     async (
-        {
-            firstName, secondName, login, email, phone,
-        }: IChangeUserProfileData,
-        { rejectWithValue },
+        { firstName, secondName, login, email, phone }: IChangeUserProfileData,
+        { rejectWithValue }
     ) => {
         try {
             const response = await axios.put(
-                '/user/profile',
+                '/api/user/profile',
                 {
                     first_name: firstName,
                     second_name: secondName,
@@ -44,13 +44,13 @@ export const changeUserProfile = createAsyncThunk(
                 },
                 {
                     withCredentials: true,
-                },
+                }
             );
             return response.data;
         } catch (err: any) {
             return rejectWithValue(err.response.data);
         }
-    },
+    }
 );
 
 interface IChangeUserPasswordData {
@@ -62,31 +62,31 @@ export const changeUserPassword = createAsyncThunk(
     'user/changeUserPassword',
     async (
         { oldPassword, newPassword }: IChangeUserPasswordData,
-        { rejectWithValue },
+        { rejectWithValue }
     ) => {
         try {
             const response = await axios.put(
-                '/user/password',
+                '/api/user/password',
                 {
                     oldPassword,
                     newPassword,
                 },
                 {
                     withCredentials: true,
-                },
+                }
             );
             return response.data;
         } catch (err: any) {
             return rejectWithValue(err.response.data);
         }
-    },
+    }
 );
 
 export const changeUserAvatar = createAsyncThunk(
     'user/changeUserAvatar',
     async (file: FormData, { rejectWithValue }) => {
         try {
-            const response = await axios.put('/user/profile/avatar', file, {
+            const response = await axios.put('/api/user/profile/avatar', file, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -96,5 +96,5 @@ export const changeUserAvatar = createAsyncThunk(
         } catch (err: any) {
             return rejectWithValue(err.response.data);
         }
-    },
+    }
 );
