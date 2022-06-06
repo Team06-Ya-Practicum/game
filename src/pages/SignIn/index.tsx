@@ -9,12 +9,15 @@ import { PageCentered } from 'components/PageCentered';
 import { EUserTypeError } from 'store/slices/userSlice';
 import * as Validators from '../../validators';
 import { Input } from '../../components/Input';
-import { signIn } from '../../controllers/authorization';
+import { fetchOAuth, signIn } from '../../controllers/authorization';
 import { ROUTES } from '../../routes';
 
 export const SignIn = () => {
     const dispatch = useAppDispatch();
     const { error, isLoading } = useAppSelector(state => state.user);
+    const submitWithYandex = () => {
+        dispatch(fetchOAuth());
+    };
     const formik = useFormik({
         initialValues: {
             login: '',
@@ -83,6 +86,14 @@ export const SignIn = () => {
                             isLoading={isLoading}
                         >
                             Sign In
+                        </Button>
+                        <Button
+                            className="w-100 mb-1"
+                            variant="success"
+                            onClick={submitWithYandex}
+                            isLoading={isLoading}
+                        >
+                            Sign In with Yandex ID
                         </Button>
                         <Link to={ROUTES.SIGN_UP}>
                             Don&apos;t have an account?
