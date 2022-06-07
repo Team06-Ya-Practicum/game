@@ -9,9 +9,19 @@ export const reducers = combineReducers({
     leaderboard: leaderboardReducer,
 });
 
-export const store = configureStore({
-    reducer: reducers,
-});
+export const store =
+    typeof window === 'undefined'
+        ? configureStore({
+              reducer: reducers,
+          })
+        : configureStore({
+              reducer: reducers,
+              preloadedState: window.__PRELOADED_STATE__ || {},
+          });
+
+if (typeof window !== 'undefined') {
+    delete window.__PRELOADED_STATE__;
+}
 
 export type RootStateType = ReturnType<typeof store.getState>;
 export type AppDispatchType = typeof store.dispatch;
