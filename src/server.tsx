@@ -31,10 +31,7 @@ app.use(
     })
 );
 
-app.get(
-    /\.(js|css|map|ico|svg)$/,
-    express.static(path.resolve(__dirname, '../build'))
-);
+app.use(express.static(path.resolve(__dirname, '../build')));
 
 app.get('*', (req: Request, res: Response) => {
     const indexFile = path.resolve(__dirname, '../public/index.html');
