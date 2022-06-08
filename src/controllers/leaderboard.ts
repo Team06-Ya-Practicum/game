@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosResponse } from 'axios';
 import {
-    BASE_API_URL,
     GAME_LEADERBOARDS_SCORE_FLD,
     GAME_LEADERBOARDS_TEAM_NAME,
 } from 'utils/constants';
@@ -19,7 +18,7 @@ export interface ILeaderboardItemRaw {
 
 export const fetchLeaderboard = createAsyncThunk(
     'leaderboard/get',
-    async (userData, { extra: api }) => {
+    async (userData, { extra: api }: { extra: any }) => {
         if (api !== undefined) {
             const response = await api.post('/leaderboard/all', {
                 ratingFieldName: GAME_LEADERBOARDS_SCORE_FLD,
@@ -28,9 +27,9 @@ export const fetchLeaderboard = createAsyncThunk(
             });
             return response.data
                 .filter(
-                    (item) => item.data.teamName === GAME_LEADERBOARDS_TEAM_NAME
+                    (item: AxiosResponse) => item.data.teamName === GAME_LEADERBOARDS_TEAM_NAME,
                 )
-                .map((item) => item.data);
+                .map((item: AxiosResponse) => item.data);
         }
         const response: AxiosResponse<ILeaderboardItemRaw[]> = await axios.post(
             '/api/leaderboard/all',
@@ -39,18 +38,18 @@ export const fetchLeaderboard = createAsyncThunk(
                 limit: 1000,
                 cursor: 0,
             },
-            { withCredentials: true }
+            { withCredentials: true },
         );
         return response.data
             .filter(
-                (item) => item.data.teamName === GAME_LEADERBOARDS_TEAM_NAME
+                item => item.data.teamName === GAME_LEADERBOARDS_TEAM_NAME,
             )
-            .map((item) => item.data);
-    }
+            .map(item => item.data);
+    },
 );
 
 export const fetchAddLeaderboard = async (
-    item: ILeaderboardItem
+    item: ILeaderboardItem,
 ): Promise<number> => {
     const response = await axios.post(
         '/api/leaderboard',
@@ -59,7 +58,7 @@ export const fetchAddLeaderboard = async (
             ratingFieldName: GAME_LEADERBOARDS_SCORE_FLD,
             teamName: GAME_LEADERBOARDS_TEAM_NAME,
         },
-        { withCredentials: true }
+        { withCredentials: true },
     );
     return response.status;
 };

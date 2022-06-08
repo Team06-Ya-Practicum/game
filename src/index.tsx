@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle: 0 */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
@@ -6,7 +7,13 @@ import { BrowserRouter } from 'react-router-dom';
 import { store } from 'store/store';
 import { App } from './app';
 
-axios.defaults.baseURL = 'http://localhost:5000';
+declare const window: any;
+
+if (typeof process !== 'undefined') {
+    axios.defaults.baseURL = `http://localhost:${process.env.PORT || 5000}`;
+} else {
+    axios.defaults.baseURL = 'http://localhost:5000';
+}
 
 if (window.__NOT_HYDRATE__ === true) {
     ReactDOM.render(
@@ -15,7 +22,7 @@ if (window.__NOT_HYDRATE__ === true) {
                 <App />
             </BrowserRouter>
         </Provider>,
-        document.getElementById('root')
+        document.getElementById('root'),
     );
 } else {
     ReactDOM.hydrate(
@@ -24,6 +31,6 @@ if (window.__NOT_HYDRATE__ === true) {
                 <App />
             </BrowserRouter>
         </Provider>,
-        document.getElementById('root')
+        document.getElementById('root'),
     );
 }

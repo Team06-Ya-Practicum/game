@@ -3,7 +3,10 @@ import axios from 'axios';
 
 export const getUserInfo = createAsyncThunk(
     'user/getUserInfo',
-    async (userData, { rejectWithValue, extra: api }) => {
+    async (
+        userData,
+        { rejectWithValue, extra: api }: { rejectWithValue: any; extra: any },
+    ) => {
         try {
             if (api !== undefined) {
                 const response = await api.get('/auth/user');
@@ -14,7 +17,7 @@ export const getUserInfo = createAsyncThunk(
         } catch (err: any) {
             return rejectWithValue(err.response.data);
         }
-    }
+    },
 );
 
 interface IChangeUserProfileData {
@@ -28,8 +31,10 @@ interface IChangeUserProfileData {
 export const changeUserProfile = createAsyncThunk(
     'user/changeUserProfile',
     async (
-        { firstName, secondName, login, email, phone }: IChangeUserProfileData,
-        { rejectWithValue }
+        {
+            firstName, secondName, login, email, phone,
+        }: IChangeUserProfileData,
+        { rejectWithValue },
     ) => {
         try {
             const response = await axios.put(
@@ -44,13 +49,13 @@ export const changeUserProfile = createAsyncThunk(
                 },
                 {
                     withCredentials: true,
-                }
+                },
             );
             return response.data;
         } catch (err: any) {
             return rejectWithValue(err.response.data);
         }
-    }
+    },
 );
 
 interface IChangeUserPasswordData {
@@ -62,7 +67,7 @@ export const changeUserPassword = createAsyncThunk(
     'user/changeUserPassword',
     async (
         { oldPassword, newPassword }: IChangeUserPasswordData,
-        { rejectWithValue }
+        { rejectWithValue },
     ) => {
         try {
             const response = await axios.put(
@@ -73,13 +78,13 @@ export const changeUserPassword = createAsyncThunk(
                 },
                 {
                     withCredentials: true,
-                }
+                },
             );
             return response.data;
         } catch (err: any) {
             return rejectWithValue(err.response.data);
         }
-    }
+    },
 );
 
 export const changeUserAvatar = createAsyncThunk(
@@ -96,5 +101,5 @@ export const changeUserAvatar = createAsyncThunk(
         } catch (err: any) {
             return rejectWithValue(err.response.data);
         }
-    }
+    },
 );

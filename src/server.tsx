@@ -30,14 +30,14 @@ app.use(
             '^/api': '/api/v2',
         },
         cookieDomainRewrite: 'localhost',
-    })
+    }),
 );
 
 app.use(express.static(path.resolve(__dirname, '../build')));
 
 app.get('*', (req: Request, res: Response) => {
     const indexFile = path.resolve(__dirname, '../public/index.html');
-    fs.readFile(indexFile, 'utf-8', (err, data) => {
+    fs.readFile(indexFile, 'utf-8', async (err, data) => {
         if (err) {
             console.error('Read index.html file error:', err);
             return res.status(500).send('Read index.html file error!');
@@ -49,7 +49,7 @@ app.get('*', (req: Request, res: Response) => {
                 `<script>
                 window.__NOT_HYDRATE__ = true 
             </script><script src="bundle.js"></script>
-                 `
+                 `,
             );
 
             return res.send(html);
@@ -65,10 +65,9 @@ app.get('*', (req: Request, res: Response) => {
 
         const store = configureStore({
             reducer: reducers,
-            middleware: (getDefaultMiddleware) =>
-                getDefaultMiddleware({
-                    thunk: { extraArgument: axiosInstance },
-                }),
+            middleware: getDefaultMiddleware => getDefaultMiddleware({
+                thunk: { extraArgument: axiosInstance },
+            }),
         });
 
         const promises = [];
@@ -81,34 +80,36 @@ app.get('*', (req: Request, res: Response) => {
             promises.push(store.dispatch(fetchLeaderboard()));
         }
 
-        Promise.all(promises).then(() => {
+        const html = await Promise.all(promises).then(() => {
             const appHTML = ReactDOMServer.renderToString(
                 <Provider store={store}>
                     <StaticRouter location={req.url}>
                         <App />
                     </StaticRouter>
-                </Provider>
+                </Provider>,
             );
 
             const preloadedState = store.getState();
 
-            const html = data
+            const htmlWithStore = data
                 .replace(
                     '<div id="root"></div>',
-                    `<div id="root">${appHTML}</div>`
+                    `<div id="root">${appHTML}</div>`,
                 )
                 .replace(
                     '<script src="bundle.js"></script>',
                     `<script>
                     window.__PRELOADED_STATE__ = ${JSON.stringify(
-                        preloadedState
-                    )} 
+        preloadedState,
+    )} 
                 </script><script src="bundle.js"></script>
-                 `
+                 `,
                 );
 
-            return res.send(html);
+            return htmlWithStore;
         });
+
+        return res.send(html);
     });
 });
 

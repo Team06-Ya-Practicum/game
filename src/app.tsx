@@ -19,7 +19,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 export const App = () => {
-    const isAuthorized = useAppSelector((state) => state.user.isAuthorized);
+    const isAuthorized = useAppSelector(state => state.user.isAuthorized);
     const location = useLocation();
     return (
         <React.StrictMode>

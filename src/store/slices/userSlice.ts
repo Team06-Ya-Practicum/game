@@ -56,10 +56,10 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {},
-    extraReducers: (builder) => {
+    extraReducers: builder => {
         builder
             // Get User Info
-            .addCase(getUserInfo.pending, (state) => {
+            .addCase(getUserInfo.pending, state => {
                 state.isLoading = true;
                 state.error = null;
             })
@@ -81,13 +81,13 @@ export const userSlice = createSlice({
                 state.error = {
                     type: EUserTypeError.GET_USER_INFO,
                     message:
-                        (action.payload as IErrorPayload)?.reason ||
-                        'Unable to get user info!',
+                        (action.payload as IErrorPayload)?.reason
+                        || 'Unable to get user info!',
                 };
                 state.isAuthorized = false;
             })
             // Change User Profile
-            .addCase(changeUserProfile.pending, (state) => {
+            .addCase(changeUserProfile.pending, state => {
                 state.isLoading = true;
                 state.error = null;
             })
@@ -108,16 +108,16 @@ export const userSlice = createSlice({
                 state.error = {
                     type: EUserTypeError.CHANGE_USER_PROFILE,
                     message:
-                        (action.payload as IErrorPayload)?.reason ||
-                        'Unable to change user profile!',
+                        (action.payload as IErrorPayload)?.reason
+                        || 'Unable to change user profile!',
                 };
             })
             // Change User Password
-            .addCase(changeUserPassword.pending, (state) => {
+            .addCase(changeUserPassword.pending, state => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(changeUserPassword.fulfilled, (state) => {
+            .addCase(changeUserPassword.fulfilled, state => {
                 state.isLoading = false;
                 state.error = null;
             })
@@ -126,16 +126,16 @@ export const userSlice = createSlice({
                 state.error = {
                     type: EUserTypeError.CHANGE_USER_PASSWORD,
                     message:
-                        (action.payload as IErrorPayload)?.reason ||
-                        'Unable to change user password!',
+                        (action.payload as IErrorPayload)?.reason
+                        || 'Unable to change user password!',
                 };
             })
             //  Sign Out
-            .addCase(signOut.pending, (state) => {
+            .addCase(signOut.pending, state => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(signOut.fulfilled, (state) => {
+            .addCase(signOut.fulfilled, state => {
                 state.isLoading = false;
                 state.error = null;
                 state.data = {
@@ -156,7 +156,7 @@ export const userSlice = createSlice({
                 };
             })
             // Change User Avatar
-            .addCase(changeUserAvatar.pending, (state) => {
+            .addCase(changeUserAvatar.pending, state => {
                 state.isLoading = true;
                 state.error = null;
             })
@@ -177,16 +177,16 @@ export const userSlice = createSlice({
                 state.error = {
                     type: EUserTypeError.CHANGE_USER_AVATAR,
                     message:
-                        (action.payload as IErrorPayload)?.reason ||
-                        'Unable to change user avatar!',
+                        (action.payload as IErrorPayload)?.reason
+                        || 'Unable to change user avatar!',
                 };
             })
             // Sign In
-            .addCase(signIn.pending, (state) => {
+            .addCase(signIn.pending, state => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(signIn.fulfilled, (state) => {
+            .addCase(signIn.fulfilled, state => {
                 state.isLoading = false;
                 state.isAuthorized = true;
             })
@@ -195,16 +195,16 @@ export const userSlice = createSlice({
                 state.error = {
                     type: EUserTypeError.SIGN_IN,
                     message:
-                        (action.payload as IErrorPayload)?.reason ||
-                        'Unable to sign in!',
+                        (action.payload as IErrorPayload)?.reason
+                        || 'Unable to sign in!',
                 };
             })
             // Sign Up
-            .addCase(signUp.pending, (state) => {
+            .addCase(signUp.pending, state => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(signUp.fulfilled, (state) => {
+            .addCase(signUp.fulfilled, state => {
                 state.isLoading = false;
                 state.isAuthorized = true;
             })
@@ -213,8 +213,8 @@ export const userSlice = createSlice({
                 state.error = {
                     type: EUserTypeError.SIGN_UP,
                     message:
-                        (action.payload as IErrorPayload)?.reason ||
-                        'Unable to sign up!',
+                        (action.payload as IErrorPayload)?.reason
+                        || 'Unable to sign up!',
                 };
             });
     },

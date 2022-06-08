@@ -20,7 +20,7 @@ export const signIn = createAsyncThunk(
     'user/signIn',
     async (
         { login, password }: ISignInArguments,
-        { rejectWithValue, dispatch }
+        { rejectWithValue, dispatch },
     ) => {
         try {
             const response = await axios.post(
@@ -28,14 +28,14 @@ export const signIn = createAsyncThunk(
                 { login, password },
                 {
                     withCredentials: true,
-                }
+                },
             );
             dispatch(getUserInfo());
             return response.data;
         } catch (err: any) {
             return rejectWithValue(err.response.data);
         }
-    }
+    },
 );
 
 export const signUp = createAsyncThunk(
@@ -49,7 +49,7 @@ export const signUp = createAsyncThunk(
             secondName,
             phone,
         }: ISignUpArguments,
-        { rejectWithValue, dispatch }
+        { rejectWithValue, dispatch },
     ) => {
         try {
             const response = await axios.post(
@@ -64,14 +64,14 @@ export const signUp = createAsyncThunk(
                 },
                 {
                     withCredentials: true,
-                }
+                },
             );
             dispatch(getUserInfo());
             return response.data;
         } catch (err: any) {
             return rejectWithValue(err.response.data);
         }
-    }
+    },
 );
 
 export const signOut = createAsyncThunk('user/signOut', async () => {
@@ -80,7 +80,7 @@ export const signOut = createAsyncThunk('user/signOut', async () => {
         {},
         {
             withCredentials: true,
-        }
+        },
     );
     return response.data;
 });
@@ -91,14 +91,14 @@ export const fetchOAuth = createAsyncThunk(
         const redirectUri = window.location.origin;
         const response = await axios.get(
             `/api/oauth/yandex/service-id?redirect_uri=${redirectUri}`,
-            { withCredentials: true }
+            { withCredentials: true },
         );
         if (response.status !== 200) {
             return;
         }
         const serviceId = response.data.service_id;
         window.location.href = ` https://oauth.yandex.ru/authorize?response_type=code&client_id=${serviceId}&redirect_uri=${redirectUri}`;
-    }
+    },
 );
 
 export const fetchOAuthLogin = createAsyncThunk(
@@ -111,11 +111,11 @@ export const fetchOAuthLogin = createAsyncThunk(
                 code,
                 redirect_uri: redirectUri,
             },
-            { withCredentials: true }
+            { withCredentials: true },
         );
         if (response.status !== 200) {
             return;
         }
         thunkAPI.dispatch(getUserInfo());
-    }
+    },
 );
