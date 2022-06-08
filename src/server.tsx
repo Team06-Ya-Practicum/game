@@ -13,6 +13,8 @@ import cookieParser from 'cookie-parser';
 import { App } from 'app';
 import { configureStore } from '@reduxjs/toolkit';
 import { getUserInfo } from 'controllers/user';
+import { fetchLeaderboard } from 'controllers/leaderboard';
+import { PRIVATE_ROUTES, ROUTES } from 'routes';
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -69,7 +71,17 @@ app.get('*', (req: Request, res: Response) => {
                 }),
         });
 
-        store.dispatch(getUserInfo()).then(() => {
+        const promises = [];
+
+        if (PRIVATE_ROUTES.includes(req.path)) {
+            promises.push(store.dispatch(getUserInfo()));
+        }
+
+        if (req.path === ROUTES.LEADERBOARD) {
+            promises.push(store.dispatch(fetchLeaderboard()));
+        }
+
+        Promise.all(promises).then(() => {
             const appHTML = ReactDOMServer.renderToString(
                 <Provider store={store}>
                     <StaticRouter location={req.url}>
