@@ -1,28 +1,31 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 
-export const getAll = (req: Request, res: Response, next: NextFunction) => {
+export const getAll = (req: Request, res: Response) => {
     try {
         res.json('[]');
     } catch (err: unknown) {
-        console.error('Error while getting forum messages', err);
-        next(err);
+        const msg = 'Error while getting forum messages';
+        console.error(msg, err);
+        res.status(500).send(msg);
     }
 };
 
-export const getOne = (req: Request, res: Response, next: NextFunction) => {
+export const getOne = (req: Request, res: Response) => {
     try {
         res.json('{}');
     } catch (err: unknown) {
-        console.error('Error while getting forum message', err);
-        next(err);
+        const msg = 'Error while getting forum message';
+        console.error(msg, err);
+        res.status(500).send(msg);
     }
 };
 
-export const updateOne = (req: Request, res: Response, next: NextFunction) => {
+export const updateOne = (req: Request, res: Response) => {
     try {
         res.json('{}');
     } catch (err: unknown) {
-        console.error('Error while updating forum message', err);
-        next(err);
+        const msg = 'Error while updating forum message';
+        console.error(msg, err);
+        res.status(500).send(msg);
     }
 };
