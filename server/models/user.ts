@@ -10,6 +10,11 @@ const User = db.define('User', {
         autoIncrement: true,
         primaryKey: true,
     },
+    theme: {
+        type: DataTypes.ENUM('light', 'dark'),
+        defaultValue: 'light',
+        allowNull: false,
+    },
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
