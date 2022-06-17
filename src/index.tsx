@@ -12,7 +12,7 @@ declare const window: any;
 if (typeof process !== 'undefined') {
     axios.defaults.baseURL = `http://localhost:${process.env.PORT || 5000}`;
 } else {
-    axios.defaults.baseURL = 'http://localhost:5000';
+    axios.defaults.baseURL = window.location.origin;
 }
 
 if (window.__NOT_HYDRATE__ === true) {

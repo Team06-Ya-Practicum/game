@@ -109,3 +109,5 @@ build
 
 # Mac OS trash
 .DS_Store
+
+postgresdata

@@ -1,0 +1,39 @@
+version: '3'
+services:
+
+  server-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: server-app
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - PORT=${PORT}
+    networks:
+      - backend
+    depends_on:
+      - database
+    ports:
+      - '3000:3000'
+
+  database:
+    container_name: database
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    volumes:
+        - ./postgresdata:/var/lib/postgresql/data
+    networks:
+      - backend
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+
+networks:
+  backend:

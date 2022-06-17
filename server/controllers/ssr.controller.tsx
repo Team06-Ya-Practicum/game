@@ -1,41 +1,19 @@
+import { Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
-
-import React from 'react';
-import express, { Request, Response } from 'express';
-import ReactDOMServer from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom/server';
-import { Provider } from 'react-redux';
-import { reducers } from 'store/store';
-import { createProxyMiddleware } from 'http-proxy-middleware';
 import axios from 'axios';
-import cookieParser from 'cookie-parser';
-import { App } from 'app';
 import { configureStore } from '@reduxjs/toolkit';
-import { getUserInfo } from 'controllers/user';
-import { fetchLeaderboard } from 'controllers/leaderboard';
-import { PRIVATE_ROUTES, ROUTES } from 'routes';
+import ReactDOMServer from 'react-dom/server';
+import { Provider } from 'react-redux';
+import { StaticRouter } from 'react-router-dom/server';
+import React from 'react';
+import { reducers } from '../../src/store/store';
+import { PRIVATE_ROUTES, ROUTES } from '../../src/routes';
+import { getUserInfo } from '../../src/controllers/user';
+import { fetchLeaderboard } from '../../src/controllers/leaderboard';
+import { App } from '../../src/app';
 
-const PORT = process.env.PORT || 5000;
-const app = express();
-
-app.use(cookieParser());
-
-app.use(
-    '/api',
-    createProxyMiddleware({
-        target: 'https://ya-praktikum.tech',
-        changeOrigin: true,
-        pathRewrite: {
-            '^/api': '/api/v2',
-        },
-        cookieDomainRewrite: 'localhost',
-    }),
-);
-
-app.use(express.static(path.resolve(__dirname, '../build')));
-
-app.get('*', (req: Request, res: Response) => {
+export const resolveRequestSSR = (req: Request, res: Response) => {
     const indexFile = path.resolve(__dirname, '../public/index.html');
     fs.readFile(indexFile, 'utf-8', async (err, data) => {
         if (err) {
@@ -111,8 +89,4 @@ app.get('*', (req: Request, res: Response) => {
 
         return res.send(html);
     });
-});
-
-app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`);
-});
+};
