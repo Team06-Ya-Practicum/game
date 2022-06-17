@@ -19,7 +19,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 export const App = () => {
-    const isAuthorized = useAppSelector(state => state.user.isAuthorized);
+    const isAuthorized = useAppSelector((state) => state.user.isAuthorized);
     const location = useLocation();
     return (
         <React.StrictMode>
@@ -29,6 +29,20 @@ export const App = () => {
                     <Navbar.Toggle />
                     {isAuthorized && location.pathname === ROUTES.GAME ? (
                         <Navbar.Collapse className="justify-content-end">
+                            <Navbar.Text className="me-2">
+                                <a
+                                    href="#"
+                                    onClick={() => {
+                                        if (!document.fullscreenElement) {
+                                            document
+                                                .getElementById('game')
+                                                .requestFullscreen();
+                                        }
+                                    }}
+                                >
+                                    Fullscreen
+                                </a>
+                            </Navbar.Text>
                             <Navbar.Text>
                                 <Link to={ROUTES.PROFILE}>Profile</Link>
                             </Navbar.Text>
