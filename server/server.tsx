@@ -19,7 +19,7 @@ app.use(
             '^/api': '/api/v2',
         },
         cookieDomainRewrite: 'localhost',
-    }),
+    })
 );
 
 app.use(express.static(path.resolve(__dirname, '../build')));
