@@ -16,10 +16,10 @@ export const Game = () => {
     }, []);
 
     return (
-        <main className={cn(css.main, css.container)}>
+        <main id="game" className={cn(css.main, css.container)}>
             <GameScore />
             <GamePopup />
-            <canvas id={CANVAS_ID}/>
+            <canvas id={CANVAS_ID} />
         </main>
     );
 };
