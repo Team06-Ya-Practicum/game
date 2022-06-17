@@ -8,3 +8,10 @@ export const ROUTES = {
     FORUM: '/forum',
     CHANGE_PASSWORD: '/password',
 };
+
+export const PRIVATE_ROUTES = [
+    ROUTES.GAME,
+    ROUTES.LEADERBOARD,
+    ROUTES.PROFILE,
+    ROUTES.CHANGE_PASSWORD,
+];

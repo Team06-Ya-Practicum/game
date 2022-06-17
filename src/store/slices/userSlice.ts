@@ -81,7 +81,7 @@ export const userSlice = createSlice({
                 state.error = {
                     type: EUserTypeError.GET_USER_INFO,
                     message:
-                        (action.payload as IErrorPayload).reason
+                        (action.payload as IErrorPayload)?.reason
                         || 'Unable to get user info!',
                 };
                 state.isAuthorized = false;
@@ -108,7 +108,7 @@ export const userSlice = createSlice({
                 state.error = {
                     type: EUserTypeError.CHANGE_USER_PROFILE,
                     message:
-                        (action.payload as IErrorPayload).reason
+                        (action.payload as IErrorPayload)?.reason
                         || 'Unable to change user profile!',
                 };
             })
@@ -126,7 +126,7 @@ export const userSlice = createSlice({
                 state.error = {
                     type: EUserTypeError.CHANGE_USER_PASSWORD,
                     message:
-                        (action.payload as IErrorPayload).reason
+                        (action.payload as IErrorPayload)?.reason
                         || 'Unable to change user password!',
                 };
             })
@@ -177,7 +177,7 @@ export const userSlice = createSlice({
                 state.error = {
                     type: EUserTypeError.CHANGE_USER_AVATAR,
                     message:
-                        (action.payload as IErrorPayload).reason
+                        (action.payload as IErrorPayload)?.reason
                         || 'Unable to change user avatar!',
                 };
             })
@@ -195,7 +195,7 @@ export const userSlice = createSlice({
                 state.error = {
                     type: EUserTypeError.SIGN_IN,
                     message:
-                        (action.payload as IErrorPayload).reason
+                        (action.payload as IErrorPayload)?.reason
                         || 'Unable to sign in!',
                 };
             })
@@ -213,7 +213,7 @@ export const userSlice = createSlice({
                 state.error = {
                     type: EUserTypeError.SIGN_UP,
                     message:
-                        (action.payload as IErrorPayload).reason
+                        (action.payload as IErrorPayload)?.reason
                         || 'Unable to sign up!',
                 };
             });

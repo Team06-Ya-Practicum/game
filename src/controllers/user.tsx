@@ -3,11 +3,16 @@ import axios from 'axios';
 
 export const getUserInfo = createAsyncThunk(
     'user/getUserInfo',
-    async (userData, { rejectWithValue }) => {
+    async (
+        userData,
+        { rejectWithValue, extra: api }: { rejectWithValue: any; extra: any },
+    ) => {
         try {
-            const response = await axios.get('/auth/user', {
-                withCredentials: true,
-            });
+            if (api !== undefined) {
+                const response = await api.get('/auth/user');
+                return response.data;
+            }
+            const response = await axios.get('/api/auth/user');
             return response.data;
         } catch (err: any) {
             return rejectWithValue(err.response.data);
@@ -33,7 +38,7 @@ export const changeUserProfile = createAsyncThunk(
     ) => {
         try {
             const response = await axios.put(
-                '/user/profile',
+                '/api/user/profile',
                 {
                     first_name: firstName,
                     second_name: secondName,
@@ -66,7 +71,7 @@ export const changeUserPassword = createAsyncThunk(
     ) => {
         try {
             const response = await axios.put(
-                '/user/password',
+                '/api/user/password',
                 {
                     oldPassword,
                     newPassword,
@@ -86,7 +91,7 @@ export const changeUserAvatar = createAsyncThunk(
     'user/changeUserAvatar',
     async (file: FormData, { rejectWithValue }) => {
         try {
-            const response = await axios.put('/user/profile/avatar', file, {
+            const response = await axios.put('/api/user/profile/avatar', file, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data',
