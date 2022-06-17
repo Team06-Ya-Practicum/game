@@ -1,0 +1,7 @@
+node_modules
+workflows
+build
+.github
+.idea
+npm-debug.log
+postgresdata

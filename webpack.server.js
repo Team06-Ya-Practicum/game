@@ -4,7 +4,7 @@ const baseConfig = require('./webpack.base');
 
 const config = {
     target: 'node',
-    entry: './src/server.tsx',
+    entry: './server/server.tsx',
     output: {
         filename: 'server.js',
     },
