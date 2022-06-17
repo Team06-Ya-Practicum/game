@@ -4,3 +4,4 @@ build
 .github
 .idea
 npm-debug.log
+postgresdata
