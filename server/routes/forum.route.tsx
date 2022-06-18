@@ -1,9 +1,5 @@
 import express from 'express';
-import {
-    getAll,
-    getOne,
-    updateOne,
-} from '../controllers/forum.controller';
+import { getAll, getOne, updateOne } from '../controllers/forum.controller';
 
 const forumRouter = express.Router();
 

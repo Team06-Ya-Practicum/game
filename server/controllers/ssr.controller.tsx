@@ -27,7 +27,7 @@ export const resolveRequestSSR = (req: Request, res: Response) => {
                 `<script>
                 window.__NOT_HYDRATE__ = true 
             </script><script src="bundle.js"></script>
-                 `,
+                 `
             );
 
             return res.send(html);
@@ -43,9 +43,10 @@ export const resolveRequestSSR = (req: Request, res: Response) => {
 
         const store = configureStore({
             reducer: reducers,
-            middleware: getDefaultMiddleware => getDefaultMiddleware({
-                thunk: { extraArgument: axiosInstance },
-            }),
+            middleware: (getDefaultMiddleware) =>
+                getDefaultMiddleware({
+                    thunk: { extraArgument: axiosInstance },
+                }),
         });
 
         const promises = [];
@@ -64,7 +65,7 @@ export const resolveRequestSSR = (req: Request, res: Response) => {
                     <StaticRouter location={req.url}>
                         <App />
                     </StaticRouter>
-                </Provider>,
+                </Provider>
             );
 
             const preloadedState = store.getState();
@@ -72,16 +73,16 @@ export const resolveRequestSSR = (req: Request, res: Response) => {
             const htmlWithStore = data
                 .replace(
                     '<div id="root"></div>',
-                    `<div id="root">${appHTML}</div>`,
+                    `<div id="root">${appHTML}</div>`
                 )
                 .replace(
                     '<script src="bundle.js"></script>',
                     `<script>
                     window.__PRELOADED_STATE__ = ${JSON.stringify(
-        preloadedState,
-    )} 
+                        preloadedState
+                    )} 
                 </script><script src="bundle.js"></script>
-                 `,
+                 `
                 );
 
             return htmlWithStore;
