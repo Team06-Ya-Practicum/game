@@ -38,6 +38,13 @@ module.exports = {
                 },
             },
             {
+                test: /\.wav$/i,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'sounds/[name][ext]',
+                },
+            },
+            {
                 test: /\.css$/i,
                 use: [
                     {
