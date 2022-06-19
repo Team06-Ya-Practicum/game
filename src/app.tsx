@@ -15,39 +15,64 @@ import { Forum } from 'pages/Forum';
 import { ChangePassword } from 'pages/ChangePassword';
 import { useAppSelector } from 'store/hooks';
 import { ROUTES } from 'routes';
+import { EUserTheme } from 'store/slices/userSlice';
+import { changeUserTheme } from 'controllers/user';
+import { useAppDispatch } from './store/hooks';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 export const App = () => {
+    const dispatch = useAppDispatch();
     const isAuthorized = useAppSelector(state => state.user.isAuthorized);
+    const theme = useAppSelector(state => state.user.theme);
     const location = useLocation();
     return (
         <React.StrictMode>
-            <Navbar bg="dark" variant="dark">
+            <Navbar
+                bg={theme === EUserTheme.LIGHT ? 'light' : 'dark'}
+                variant={theme === EUserTheme.LIGHT ? 'light' : 'dark'}
+            >
                 <Container>
                     <Navbar.Brand>CRYSTAL CATCHER</Navbar.Brand>
                     <Navbar.Toggle />
-                    {isAuthorized && location.pathname === ROUTES.GAME ? (
-                        <Navbar.Collapse className="justify-content-end">
-                            <Navbar.Text className="me-2">
-                                <a
-                                    href="#"
-                                    onClick={() => {
-                                        if (!document.fullscreenElement) {
-                                            document
-                                                .getElementById('game')
-                                                ?.requestFullscreen();
-                                        }
-                                    }}
-                                >
-                                    Fullscreen
-                                </a>
-                            </Navbar.Text>
-                            <Navbar.Text>
-                                <Link to={ROUTES.PROFILE}>Profile</Link>
-                            </Navbar.Text>
-                        </Navbar.Collapse>
-                    ) : null}
+                    <Navbar.Collapse className="justify-content-end">
+                        {isAuthorized && location.pathname === ROUTES.GAME ? (
+                            <>
+                                <Navbar.Text className="me-2">
+                                    <a
+                                        href="#"
+                                        onClick={() => {
+                                            if (!document.fullscreenElement) {
+                                                document
+                                                    .getElementById('game')
+                                                    ?.requestFullscreen();
+                                            }
+                                        }}
+                                    >
+                                        Fullscreen
+                                    </a>
+                                </Navbar.Text>
+                                <Navbar.Text className="me-2">
+                                    <Link to={ROUTES.PROFILE}>Profile</Link>
+                                </Navbar.Text>
+                            </>
+                        ) : null}
+                        <Navbar.Text className="me-2">
+                            <a
+                                href="#"
+                                className={
+                                    theme !== EUserTheme.LIGHT
+                                        ? 'text-muted'
+                                        : undefined
+                                }
+                                onClick={() => {
+                                    dispatch(changeUserTheme());
+                                }}
+                            >
+                                <i className="fa-solid fa-lightbulb"></i>
+                            </a>
+                        </Navbar.Text>
+                    </Navbar.Collapse>
                 </Container>
             </Navbar>
 

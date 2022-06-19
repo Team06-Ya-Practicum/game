@@ -4,6 +4,7 @@ import {
     changeUserPassword,
     changeUserAvatar,
     getUserInfo,
+    changeUserTheme,
 } from 'controllers/user';
 import { signOut, signIn, signUp } from 'controllers/authorization';
 
@@ -12,9 +13,15 @@ export enum EUserTypeError {
     CHANGE_USER_PROFILE = '@user-error/change-user-profile',
     CHANGE_USER_PASSWORD = '@user-error/change-user-password',
     CHANGE_USER_AVATAR = '@user-error/change-user-avatar',
+    CHANGE_USER_THEME = '@user-error/change-user-theme',
     SIGN_OUT = '@user-error/sign-out',
     SIGN_IN = '@user-error/sign-in',
     SIGN_UP = '@user-error/sign-up',
+}
+
+export enum EUserTheme {
+    LIGHT,
+    DARK,
 }
 
 interface IErrorPayload {
@@ -30,6 +37,7 @@ export interface IUserState {
         phone: string;
         avatar: string;
     };
+    theme: EUserTheme;
     isLoading: boolean;
     isAuthorized: boolean | null;
     error: {
@@ -47,6 +55,7 @@ const initialState: IUserState = {
         phone: '',
         avatar: '',
     },
+    theme: EUserTheme.LIGHT,
     isLoading: false,
     isAuthorized: null,
     error: null,
@@ -215,6 +224,26 @@ export const userSlice = createSlice({
                     message:
                         (action.payload as IErrorPayload)?.reason
                         || 'Unable to sign up!',
+                };
+            })
+            // Change User Theme
+            .addCase(changeUserTheme.pending, state => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(changeUserTheme.fulfilled, state => {
+                state.isLoading = false;
+                state.theme = state.theme === EUserTheme.DARK
+                    ? EUserTheme.LIGHT
+                    : EUserTheme.DARK;
+            })
+            .addCase(changeUserTheme.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = {
+                    type: EUserTypeError.CHANGE_USER_THEME,
+                    message:
+                        (action.payload as IErrorPayload)?.reason
+                        || 'Unable to change the theme!',
                 };
             });
     },
