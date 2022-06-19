@@ -2,9 +2,16 @@
     background-size: cover;
 }
 
-.introduction {
+.introduction-dark {
     background-color: rgba(0, 0, 0, 0.75) !important;
     color: #fff !important;
+    border: 0 !important;
+    border-radius: 15px !important;
+}
+
+.introduction-light {
+    background-color: rgba(255, 255, 255, 0.75) !important;
+    color: #000 !important;
     border: 0 !important;
     border-radius: 15px !important;
 }

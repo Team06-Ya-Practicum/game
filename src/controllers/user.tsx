@@ -103,3 +103,8 @@ export const changeUserAvatar = createAsyncThunk(
         }
     },
 );
+
+export const changeUserTheme = createAsyncThunk(
+    'user/changeUserTheme',
+    async () => true,
+);
