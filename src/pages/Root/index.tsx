@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { fetchOAuthLogin } from 'controllers/authorization';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { useNavigate } from 'react-router';
+import { EUserTheme } from 'store/slices/userSlice';
 import characterImage from '../../img/character_front.svg';
 import backgroundImage from '../../img/road_ready.svg';
 import css from './Root.module.css';
@@ -14,6 +15,7 @@ import { ROUTES } from '../../routes';
 
 export const Root = () => {
     const dispatch = useAppDispatch();
+    const theme = useAppSelector(state => state.user.theme);
     const isAuthorized = useAppSelector(state => state.user.isAuthorized);
     const navigate = useNavigate();
     useEffect(() => {
@@ -36,15 +38,23 @@ export const Root = () => {
             className={`d-flex h-100 justify-content-end ${cn(css.root)}`}
             fluid
         >
-            <Card className={`w-50 mt-auto mb-auto ${cn(css.introduction)}`}>
+            <Card
+                className={`w-50 mt-auto mb-auto ${cn(
+                    css[
+                        theme === EUserTheme.LIGHT
+                            ? 'introduction-light'
+                            : 'introduction-dark'
+                    ],
+                )}`}
+            >
                 <Card.Body>
                     <Row className="mb-3">
                         <Col>
                             <p>YOUR RETRO ADVENTURE STARTS HERE</p>
                             <p>
-                                Jump in and catch as many crystals as you can, but
-                                be aware of the traffic. Take your path to the
-                                leaderboards and become THE LEGEND
+                                Jump in and catch as many crystals as you can,
+                                but be aware of the traffic. Take your path to
+                                the leaderboards and become THE LEGEND
                             </p>
                         </Col>
                     </Row>
@@ -59,7 +69,10 @@ export const Root = () => {
                             >
                                 REGISTER
                             </Link>
-                            <Link className="w-100 btn btn-danger" to={ROUTES.GAME}>
+                            <Link
+                                className="w-100 btn btn-danger"
+                                to={ROUTES.GAME}
+                            >
                                 PLAY
                             </Link>
                         </Col>
