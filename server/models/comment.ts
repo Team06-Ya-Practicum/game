@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize';
 import User from './user';
-import Topic from './topic';
 import db from '../db';
 
 const Comment = db.define('Comment', {
@@ -25,6 +24,8 @@ const Comment = db.define('Comment', {
 });
 
 Comment.belongsTo(User);
-Comment.belongsTo(Topic);
+User.hasMany(Comment, {
+    onDelete: 'CASCADE',
+});
 
 export default Comment;

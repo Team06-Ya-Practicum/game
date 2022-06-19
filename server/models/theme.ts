@@ -17,5 +17,8 @@ const Theme = db.define('Theme', {
 });
 
 Theme.belongsTo(User);
+User.hasOne(Theme, {
+    onDelete: 'CASCADE',
+});
 
 export default Theme;

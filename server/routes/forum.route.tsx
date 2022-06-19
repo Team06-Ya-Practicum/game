@@ -1,12 +1,12 @@
 import express from 'express';
-import { getAll, getOne, updateOne } from '../controllers/forum.controller';
+import { getTopicsAll, getTopic, createTopic } from '../controllers/forum.controller';
 
 const forumRouter = express.Router();
 
-forumRouter.get('/', getAll);
+forumRouter.get('/topics', getTopicsAll);
 
-forumRouter.get('/:id', getOne);
+forumRouter.get('/topics/:id', getTopic);
 
-forumRouter.put(':id', updateOne);
+forumRouter.post('/topics', createTopic);
 
 export default forumRouter;
