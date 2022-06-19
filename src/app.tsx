@@ -12,6 +12,8 @@ import { SignUp } from 'pages/SignUp';
 import { Leaderboard } from 'pages/Leaderboard';
 import { Profile } from 'pages/Profile';
 import { Forum } from 'pages/Forum';
+import { ForumTopic } from 'pages/ForumTopic';
+import { ForumTopicAdd } from 'pages/ForumTopicAdd';
 import { ChangePassword } from 'pages/ChangePassword';
 import { useAppSelector } from 'store/hooks';
 import { ROUTES } from 'routes';
@@ -105,10 +107,24 @@ export const App = () => {
                             <PrivateRoute component={<ChangePassword />} />
                         }
                     />
-                    <Route
-                        path={ROUTES.FORUM}
-                        element={<PrivateRoute component={<Forum />} />}
-                    />
+                    <Route path={ROUTES.FORUM}>
+                        <Route
+                            index
+                            element={<PrivateRoute component={<Forum />} />}
+                        />
+                        <Route
+                            path=":topicId"
+                            element={
+                                <PrivateRoute component={<ForumTopic />} />
+                            }
+                        />
+                        <Route
+                            path="add"
+                            element={
+                                <PrivateRoute component={<ForumTopicAdd />} />
+                            }
+                        />
+                    </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>

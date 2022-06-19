@@ -5,7 +5,7 @@ export const ROUTES = {
     GAME: '/game',
     LEADERBOARD: '/leaderboard',
     PROFILE: '/profile',
-    FORUM: '/forum',
+    FORUM: '/forumfront',
     CHANGE_PASSWORD: '/password',
 };
 
