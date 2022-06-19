@@ -10,7 +10,7 @@ import db from '../db';
 export interface ITopicDTO {
     title: string
     content: string
-    userId: number
+    UserId: number
 }
 
 export interface ITopicModel extends
@@ -20,8 +20,8 @@ export interface ITopicModel extends
     content: string
     createdAt: Date
     updatedAt: Date
-    userId?: ForeignKey<IUserModel['id']>
-    user: NonAttribute<IUserModel>
+    UserId?: ForeignKey<IUserModel['id']>
+    User: NonAttribute<IUserModel>
 }
 
 const Topic = db.define<ITopicModel>('Topic', {

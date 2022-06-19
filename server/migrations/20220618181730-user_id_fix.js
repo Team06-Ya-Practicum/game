@@ -1,10 +1,8 @@
-const { DataTypes } = require('sequelize');
-
 module.exports = {
-    up (queryInterface) {
+    up (queryInterface, Sequelize) {
         console.log('starting migration "user id fix"');
         return queryInterface.changeColumn('Users', 'id', {
-            type: DataTypes.INTEGER,
+            type: Sequelize.DataTypes.INTEGER,
             allowNull: false,
             autoIncrement: false,
             primaryKey: true,
