@@ -39,7 +39,7 @@ export const getTopic = async (req: Request, res: Response) => {
             include: [
                 {
                     model: Comment,
-                    attributes: ['id', 'content', 'createdAt'],
+                    attributes: ['id', 'content', 'createdAt', 'UserId'],
                 },
             ],
             where: {
