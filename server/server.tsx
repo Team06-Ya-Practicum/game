@@ -12,7 +12,6 @@ const app = express();
 
 initDB();
 
-app.use(express.json());
 app.use(cookieParser());
 
 app.use(
@@ -28,6 +27,8 @@ app.use(
 );
 
 app.use(express.static(path.resolve(__dirname, '../build')));
+
+app.use(express.json());
 
 app.use('/forum', forumRouter);
 
