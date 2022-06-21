@@ -10,7 +10,10 @@ export const getTopicsAll = async (req: Request, res: Response) => {
         const results = await Topic.findAll({
             attributes: {
                 include: [
-                    [Sequelize.fn('COUNT', Sequelize.col('Comments.id')), 'comment_num'],
+                    [
+                        Sequelize.fn('COUNT', Sequelize.col('Comments.id')),
+                        'comment_num',
+                    ],
                 ],
             },
             include: [
@@ -39,7 +42,7 @@ export const getTopic = async (req: Request, res: Response) => {
             include: [
                 {
                     model: Comment,
-                    attributes: ['id', 'content', 'createdAt'],
+                    attributes: ['id', 'content', 'UserId', 'createdAt'],
                 },
             ],
             where: {
@@ -57,7 +60,7 @@ export const getTopic = async (req: Request, res: Response) => {
 export const createTopic = async (req: Request, res: Response) => {
     try {
         const data: ITopicDTO = req.body;
-        const results = await sequelize.transaction(async t => {
+        const results = await sequelize.transaction(async (t) => {
             const currDate = new Date();
             let user = await User.findOne({
                 where: {
@@ -65,19 +68,25 @@ export const createTopic = async (req: Request, res: Response) => {
                 },
             });
             if (!user) {
-                user = await User.create({
-                    id: data.UserId,
+                user = await User.create(
+                    {
+                        id: data.UserId,
+                        createdAt: currDate,
+                        updatedAt: currDate,
+                    },
+                    { transaction: t }
+                );
+            }
+            const newTopic = Topic.create(
+                {
+                    title: data.title,
+                    content: data.content,
                     createdAt: currDate,
                     updatedAt: currDate,
-                }, { transaction: t });
-            }
-            const newTopic = Topic.create({
-                title: data.title,
-                content: data.content,
-                createdAt: currDate,
-                updatedAt: currDate,
-                UserId: user.id,
-            }, { transaction: t });
+                    UserId: user.id,
+                },
+                { transaction: t }
+            );
             return newTopic;
         });
         res.json(results);
@@ -95,7 +104,7 @@ export const createComment = async (req: Request, res: Response) => {
             res.status(400).send('No topicId provided');
             return;
         }
-        const results = await sequelize.transaction(async t => {
+        const results = await sequelize.transaction(async (t) => {
             const currDate = new Date();
             let user = await User.findOne({
                 where: {
@@ -103,20 +112,26 @@ export const createComment = async (req: Request, res: Response) => {
                 },
             });
             if (!user) {
-                user = await User.create({
-                    id: data.UserId,
+                user = await User.create(
+                    {
+                        id: data.UserId,
+                        createdAt: currDate,
+                        updatedAt: currDate,
+                    },
+                    { transaction: t }
+                );
+            }
+            const newComment = Comment.create(
+                {
+                    content: data.content,
+                    parent: data.parent || null,
+                    TopicId: data.TopicId,
+                    UserId: user.id,
                     createdAt: currDate,
                     updatedAt: currDate,
-                }, { transaction: t });
-            }
-            const newComment = Comment.create({
-                content: data.content,
-                parent: data.parent || null,
-                TopicId: data.TopicId,
-                UserId: user.id,
-                createdAt: currDate,
-                updatedAt: currDate,
-            }, { transaction: t });
+                },
+                { transaction: t }
+            );
             return newComment;
         });
         res.json(results);

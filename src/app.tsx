@@ -13,7 +13,7 @@ import { Leaderboard } from 'pages/Leaderboard';
 import { Profile } from 'pages/Profile';
 import { Forum } from 'pages/Forum';
 import { ForumTopic } from 'pages/ForumTopic';
-import { ForumTopicAdd } from 'pages/ForumTopicAdd';
+import { ForumTopicCreate } from 'pages/ForumTopicCreate';
 import { ChangePassword } from 'pages/ChangePassword';
 import { useAppSelector } from 'store/hooks';
 import { ROUTES } from 'routes';
@@ -53,6 +53,9 @@ export const App = () => {
                                     >
                                         Fullscreen
                                     </a>
+                                </Navbar.Text>
+                                <Navbar.Text className="me-2">
+                                    <Link to={ROUTES.FORUM}>Forum</Link>
                                 </Navbar.Text>
                                 <Navbar.Text className="me-2">
                                     <Link to={ROUTES.PROFILE}>Profile</Link>
@@ -119,9 +122,11 @@ export const App = () => {
                             }
                         />
                         <Route
-                            path="add"
+                            path="create"
                             element={
-                                <PrivateRoute component={<ForumTopicAdd />} />
+                                <PrivateRoute
+                                    component={<ForumTopicCreate />}
+                                />
                             }
                         />
                     </Route>

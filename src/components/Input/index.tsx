@@ -12,6 +12,7 @@ interface IInputProps {
     isValid: boolean;
     isInvalid: boolean;
     errorMessage?: string | undefined;
+    [x: string]: any;
 }
 
 export const Input = ({
@@ -25,6 +26,7 @@ export const Input = ({
     type = 'text',
     status = 'normal',
     errorMessage = '',
+    ...otherProps
 }: IInputProps) => (
     <Form.Group className="mb-3">
         <Form.Label>{label}</Form.Label>
@@ -36,6 +38,7 @@ export const Input = ({
             value={value}
             isInvalid={isInvalid}
             isValid={isValid}
+            {...otherProps}
         />
         {status === 'error' && isInvalid ? (
             <Form.Control.Feedback type="invalid">

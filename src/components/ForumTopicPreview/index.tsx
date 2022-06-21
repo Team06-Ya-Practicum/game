@@ -1,17 +1,21 @@
 import React from 'react';
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { ROUTES } from 'routes';
 
 interface IForumTopicPreviewProps {
+    id: number;
     title: string;
     children: string;
-    user: string;
+    userId: number;
     createdAt: Date;
 }
 
 export const ForumTopicPreview = ({
+    id,
     title,
     children,
-    user,
+    userId,
     createdAt,
 }: IForumTopicPreviewProps) => (
     <Card className="mb-2">
@@ -23,11 +27,13 @@ export const ForumTopicPreview = ({
                     : `${children.substring(0, 80)}...`}
             </Card.Text>
             <Card.Text className="text-muted">
-                {`by ${user} at ${createdAt.toDateString()}`}
+                {`by ${userId} at ${createdAt.toDateString()}`}
             </Card.Text>
         </Card.Body>
         <Card.Footer className="text-center">
-            <Button variant="warning">Read the Topic</Button>
+            <Link to={`${ROUTES.FORUM}/${id}`} className="btn btn-warning">
+                Read the Topic
+            </Link>
         </Card.Footer>
     </Card>
 );

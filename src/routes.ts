@@ -5,8 +5,8 @@ export const ROUTES = {
     GAME: '/game',
     LEADERBOARD: '/leaderboard',
     PROFILE: '/profile',
-    FORUM: '/forumfront',
-    CHANGE_PASSWORD: '/password',
+    FORUM: '/forum',
+    CHANGE_PASSWORD: '/profile/password',
 };
 
 export const PRIVATE_ROUTES = [

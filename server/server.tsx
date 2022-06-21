@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import path from 'path';
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
@@ -12,7 +13,6 @@ const app = express();
 
 initDB();
 
-app.use(express.json());
 app.use(cookieParser());
 
 app.use(
@@ -24,14 +24,16 @@ app.use(
             '^/api': '/api/v2',
         },
         cookieDomainRewrite: 'localhost',
-    }),
+    })
 );
 
 app.use(express.static(path.resolve(__dirname, '../build')));
 
-app.use('/forum', forumRouter);
+app.use(express.json());
 
-app.use('/theme', themeRouter);
+app.use('/myapi/forum', forumRouter);
+
+app.use('/myapi/theme', themeRouter);
 
 app.get('*', resolveRequestSSR);
 
