@@ -4,9 +4,13 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
 import { resolveRequestSSR } from './controllers/ssr.controller';
 import forumRouter from './routes/forum.route';
+import { initDB } from './db';
+import themeRouter from './routes/theme.route';
 
 const PORT = process.env.PORT || 5000;
 const app = express();
+
+initDB();
 
 app.use(cookieParser());
 
@@ -19,12 +23,16 @@ app.use(
             '^/api': '/api/v2',
         },
         cookieDomainRewrite: 'localhost',
-    })
+    }),
 );
 
 app.use(express.static(path.resolve(__dirname, '../build')));
 
+app.use(express.json());
+
 app.use('/forum', forumRouter);
+
+app.use('/theme', themeRouter);
 
 app.get('*', resolveRequestSSR);
 

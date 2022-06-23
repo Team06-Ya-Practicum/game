@@ -1,14 +1,25 @@
-import { DataTypes } from 'sequelize';
-import Topic from './topic';
-import Comment from './comment';
-import Theme from './theme';
+import {
+    CreationOptional,
+    DataTypes,
+    InferAttributes,
+    InferCreationAttributes,
+    Model,
+} from 'sequelize';
 import db from '../db';
 
-const User = db.define('User', {
+export interface IUserModel extends
+    Model<InferAttributes<IUserModel>, InferCreationAttributes<IUserModel>> {
+    id: number
+    theme: CreationOptional<'light' | 'dark'>
+    createdAt: Date
+    updatedAt: Date
+}
+
+const User = db.define<IUserModel>('User', {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        autoIncrement: true,
+        autoIncrement: false,
         primaryKey: true,
     },
     theme: {
@@ -24,18 +35,6 @@ const User = db.define('User', {
         type: DataTypes.DATE,
         allowNull: true,
     },
-});
-
-User.hasMany(Topic, {
-    onDelete: 'CASCADE',
-});
-
-User.hasMany(Comment, {
-    onDelete: 'CASCADE',
-});
-
-User.hasOne(Theme, {
-    onDelete: 'CASCADE',
 });
 
 export default User;
