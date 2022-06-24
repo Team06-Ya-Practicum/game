@@ -22,7 +22,7 @@ app.use(
         pathRewrite: {
             '^/api': '/api/v2',
         },
-        cookieDomainRewrite: 'https://team06-crystal-12.ya-praktikum.tech',
+        cookieDomainRewrite: 'team06-crystal-12.ya-praktikum.tech',
     }),
 );
 
