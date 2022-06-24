@@ -19,13 +19,13 @@ services:
       - database
     command: ["./wait-for-it.sh", "database:5432", "--", "npm", "run", "start"]
     ports:
-      - '3000:3000'
+      - '127.0.0.1:3000:3000'
 
   database:
     container_name: database
     image: postgres:12
-    ports:
-      - "5432:5432"
+    expose:
+      - "127.0.0.1:5432:5432"
     volumes:
         - ./postgresdata:/var/lib/postgresql/data
     networks:
