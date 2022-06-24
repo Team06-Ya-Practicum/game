@@ -1,0 +1,23 @@
+name: Deploy Ya Cloud
+
+on:
+  push:
+    branches:
+      -main
+  pull_request:
+    branches:
+      -main
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: install modules
+        run: npm install 
+      - name: build and start up containers
+        run: npm run start
+      - name: clear unused containers
+        run: docker image prune -f
