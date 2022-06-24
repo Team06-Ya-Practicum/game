@@ -24,7 +24,7 @@ services:
   database:
     container_name: database
     image: postgres:12
-    expose:
+    ports:
       - "127.0.0.1:5432:5432"
     volumes:
         - ./postgresdata:/var/lib/postgresql/data
