@@ -16,8 +16,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: install modules
-        run: /home/nkoroid/.nvm/versions/node/v16.15.1/npm install 
+        run: /home/nkoroid/.nvm/versions/node/v16.15.1/bin/npm install 
       - name: build and start up containers
-        run: /home/nkoroid/.nvm/versions/node/v16.15.1/npm run start
+        run: /home/nkoroid/.nvm/versions/node/v16.15.1/bin/npm run start
       - name: clear unused containers
         run: docker image prune -f
