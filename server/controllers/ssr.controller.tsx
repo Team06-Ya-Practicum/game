@@ -23,10 +23,10 @@ export const resolveRequestSSR = (req: Request, res: Response) => {
 
         if (req.path === '/game') {
             const html = data.replace(
-                '<script src="bundle.js"></script>',
+                '<script src="/bundle.js"></script>',
                 `<script>
                 window.__NOT_HYDRATE__ = true 
-            </script><script src="bundle.js"></script>
+            </script><script src="/bundle.js"></script>
                  `
             );
 
@@ -76,12 +76,12 @@ export const resolveRequestSSR = (req: Request, res: Response) => {
                     `<div id="root">${appHTML}</div>`
                 )
                 .replace(
-                    '<script src="bundle.js"></script>',
+                    '<script src="/bundle.js"></script>',
                     `<script>
                     window.__PRELOADED_STATE__ = ${JSON.stringify(
                         preloadedState
                     )} 
-                </script><script src="bundle.js"></script>
+                </script><script src="/bundle.js"></script>
                  `
                 );
 
