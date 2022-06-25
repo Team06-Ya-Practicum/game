@@ -1,9 +1,6 @@
 name: Deploy Ya Cloud
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main

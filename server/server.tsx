@@ -23,8 +23,8 @@ app.use(
         pathRewrite: {
             '^/api': '/api/v2',
         },
-        cookieDomainRewrite: 'localhost',
-    })
+        cookieDomainRewrite: 'team06-crystal-12.ya-praktikum.tech',
+    }),
 );
 
 app.use(express.static(path.resolve(__dirname, '../build')));
