@@ -6,7 +6,7 @@ export const ROUTES = {
     LEADERBOARD: '/leaderboard',
     PROFILE: '/profile',
     FORUM: '/forum',
-    CHANGE_PASSWORD: '/password',
+    CHANGE_PASSWORD: '/profile/password',
 };
 
 export const PRIVATE_ROUTES = [

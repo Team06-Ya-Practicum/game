@@ -30,6 +30,7 @@ interface IErrorPayload {
 
 export interface IUserState {
     data: {
+        id: number;
         firstName: string;
         secondName: string;
         login: string;
@@ -48,6 +49,7 @@ export interface IUserState {
 
 const initialState: IUserState = {
     data: {
+        id: 0,
         firstName: '',
         secondName: '',
         login: '',
@@ -76,6 +78,7 @@ export const userSlice = createSlice({
                 state.isLoading = false;
                 state.error = null;
                 state.data = {
+                    id: action.payload.id,
                     firstName: action.payload.first_name,
                     secondName: action.payload.second_name,
                     phone: action.payload.phone,
@@ -104,6 +107,7 @@ export const userSlice = createSlice({
                 state.isLoading = false;
                 state.error = null;
                 state.data = {
+                    id: action.payload.id,
                     firstName: action.payload.first_name,
                     secondName: action.payload.second_name,
                     phone: action.payload.phone,
@@ -148,6 +152,7 @@ export const userSlice = createSlice({
                 state.isLoading = false;
                 state.error = null;
                 state.data = {
+                    id: 0,
                     firstName: '',
                     secondName: '',
                     phone: '',
@@ -173,6 +178,7 @@ export const userSlice = createSlice({
                 state.isLoading = false;
                 state.error = null;
                 state.data = {
+                    id: action.payload.id,
                     firstName: action.payload.first_name,
                     secondName: action.payload.second_name,
                     phone: action.payload.phone,

@@ -1,6 +1,8 @@
 import * as Yup from 'yup';
 
-const requiredFiled = Yup.string().required('This is the required field');
+export const requiredFiled = Yup.string().required(
+    'This is the required field',
+);
 
 export const loginRegex = /^(?=.*[A-Za-z])[-_A-Za-z\d]{1,20}$/;
 export const passwordRegex = /^(?=.*\d)(?=.*[A-Z]).{8,40}$/;
@@ -26,7 +28,7 @@ export const passwordValidator = requiredFiled
     );
 
 export const phoneValidator = requiredFiled
-    .min(5, 'Should be more than or equal to 10 symbols')
+    .min(5, 'Should be more than or equal to 5 symbols')
     .max(15, 'Should be less than or equal to 15 symbols')
     .matches(phoneRegex, 'Consists of numbers, may start with a plus');
 
@@ -36,3 +38,8 @@ export const nameValidator = requiredFiled.matches(
 );
 
 export const passwordConfirmationValidator = (ref: string) => requiredFiled.oneOf([Yup.ref(ref), null], 'Passwords must match');
+
+export const topicTitleValidator = requiredFiled.max(
+    255,
+    'Should be less than or equal to 255 symbols',
+);
