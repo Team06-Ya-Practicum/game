@@ -1,9 +1,6 @@
 name: Deploy Ya Cloud
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -12,6 +9,7 @@ on:
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true
     runs-on: self-hosted
     env:
       NODE_ENV: production
